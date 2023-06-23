@@ -120,13 +120,13 @@ public void limpiar(){
 public String radioEleccion(){
    String cons="";
     if (this.radio_codigo.isSelected()) {
-             cons="select  nombre,descripcion,proveedor,stock,precioCompra,precio,categoria from productos where codigo="+this.txt_producto.getText();
+             cons="select  nombre,descripcion,proveedor,stock,precioCompra,precio,categoria from productos1 where codigo="+this.txt_producto.getText();
             
             this.txt_producto.setText("");
              return cons;
 
         }else if(this.radio_producto.isSelected()){
-             cons="select  nombre,descripcion,proveedor,stock,precioCompra,precio,categoria from productos where nombre='"+this.txt_producto.getText()+"'";
+             cons="select  nombre,descripcion,proveedor,stock,precioCompra,precio,categoria from productos1 where nombre='"+this.txt_producto.getText()+"'";
             
             this.txt_producto.setText("");
              return cons;
@@ -174,7 +174,7 @@ public String radioEleccion(){
               ac=new TextAutoCompleter(txt_producto);
              Conexion con = new Conexion();
        Connection cnx=con.conectar();
-       String sql="select id,nombre,descripcion,stock,precio,precioCompra,codigo  from productos";
+       String sql="select id,nombre,descripcion,stock,precio,precioCompra,codigo  from productos1";
        try{
            Statement st =cnx.createStatement();
            ResultSet rs =st.executeQuery(sql);

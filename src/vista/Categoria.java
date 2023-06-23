@@ -70,14 +70,14 @@ public class Categoria extends javax.swing.JFrame {
               
                
                pst.executeUpdate();
-                   
+                   JOptionPane.showMessageDialog(null,"datos actualizados correctamente");
                
                }catch(Exception e){
                    JOptionPane.showMessageDialog(null, e);
                    System.out.println(e.toString());
                }
     }
-           public void insertarCliente(){
+           public void insertarCategoria(){
              sql="insert into categoria(idcategoria,categoria)values(?,?)";
                 cnx=con.conectar();
                try{
@@ -85,12 +85,35 @@ public class Categoria extends javax.swing.JFrame {
                pst.setString(1, this.txt_id.getText());
                pst.setString(2,this.txt_categoria.getText());
                
-               int entero=pst.executeUpdate();
-                   if (entero>0) {
-                       JOptionPane.showMessageDialog(null, "datos ingresados correctamente");
-                   }else {
-                       JOptionPane.showMessageDialog(null,"llene todos los campos ");
-                   }
+              if(this.txt_categoria.getText().isEmpty()){
+                  JOptionPane.showMessageDialog(null,"indica una categoria");
+              }else{
+                     int in=pst.executeUpdate();
+                       JOptionPane.showMessageDialog(null,"categoria ingresada ");
+           ArrayList<Integer> numeros= new ArrayList<>();
+            try {
+            Connection conexion =con.conectar();
+            PreparedStatement pst1 =conexion.prepareStatement("select idproveedor from proveedores");
+            ResultSet rs1 =pst1.executeQuery();
+           
+               while (rs1.next()) {
+                   numeros.add(Integer.parseInt(rs1.getString("idproveedor")));
+                   
+                }
+                
+                 in =numeros.size()+1;
+                
+           
+        } catch (Exception ex) {
+           
+        }
+      
+               
+              
+                String identificador=String.valueOf(in);
+                 this.txt_id.setText(identificador);
+                this.txt_id.setEditable(false);
+              }
                
                }catch(Exception e){
                    JOptionPane.showMessageDialog(null, e);
@@ -112,18 +135,18 @@ public class Categoria extends javax.swing.JFrame {
         btn_salir = new javax.swing.JButton();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel8 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txt_id = new javax.swing.JTextField();
-        txt_categoria = new javax.swing.JTextField();
+        radio_id = new javax.swing.JRadioButton();
+        radio_categoria = new javax.swing.JRadioButton();
+        txt_seleccion = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        btn_buscar = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        txt_seleccion = new javax.swing.JTextField();
-        btn_reporte = new javax.swing.JButton();
-        radio_id = new javax.swing.JRadioButton();
-        radio_nombre = new javax.swing.JRadioButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txt_id = new javax.swing.JTextField();
+        txt_categoria = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Clientes");
@@ -157,6 +180,11 @@ public class Categoria extends javax.swing.JFrame {
         btn_modificar.setText("Modificar");
         btn_modificar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btn_modificar.setEnabled(false);
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
 
         btn_cancelar.setBackground(new java.awt.Color(255, 255, 204));
         btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/eliminar.png"))); // NOI18N
@@ -205,14 +233,30 @@ public class Categoria extends javax.swing.JFrame {
 
         jPanel8.setBackground(new java.awt.Color(102, 204, 255));
 
-        jLabel1.setText("ID");
+        grupo1.add(radio_id);
+        radio_id.setText("id");
 
-        jLabel2.setText("Nombre o Razon Social");
+        grupo1.add(radio_categoria);
+        radio_categoria.setText("categoria");
 
-        txt_id.setEditable(false);
-        txt_id.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txt_idMouseEntered(evt);
+        jTable2=new javax.swing.JTable(){
+            public boolean isCellEditable(int r,int c){
+                return false;
+            }
+        };
+        jTable2.setFocusable(false);
+        jTable2.getTableHeader().setReorderingAllowed(false);
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable2);
+
+        btn_buscar.setText("buscar");
+        btn_buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_buscarActionPerformed(evt);
             }
         });
 
@@ -221,115 +265,98 @@ public class Categoria extends javax.swing.JFrame {
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                        .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel2)))
-                .addGap(309, 309, 309))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(160, 160, 160)
-                .addComponent(txt_categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt_seleccion, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(radio_id)
+                        .addGap(102, 102, 102)
+                        .addComponent(radio_categoria)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txt_categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(389, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(radio_id)
+                            .addComponent(radio_categoria))
+                        .addGap(18, 18, 18)
+                        .addComponent(txt_seleccion, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(60, 60, 60)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("nuevo/modificar", jPanel8);
 
         jPanel7.setBackground(new java.awt.Color(102, 204, 255));
 
-        txt_seleccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_seleccionActionPerformed(evt);
+        jLabel3.setText("id");
+
+        jLabel4.setText("categoria");
+
+        txt_id.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txt_idMouseEntered(evt);
             }
         });
-
-        btn_reporte.setText("Reporte");
-        btn_reporte.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_reporteActionPerformed(evt);
-            }
-        });
-
-        grupo1.add(radio_id);
-        radio_id.setText("id categoria");
-        radio_id.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radio_idActionPerformed(evt);
-            }
-        });
-
-        grupo1.add(radio_nombre);
-        radio_nombre.setText("categoria");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(txt_seleccion, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(radio_id)
-                        .addGap(18, 18, 18)
-                        .addComponent(radio_nombre)))
-                .addGap(49, 49, 49)
-                .addComponent(btn_reporte, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(92, Short.MAX_VALUE))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addGap(43, 43, 43)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txt_categoria, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                    .addComponent(txt_id))
+                .addContainerGap(302, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btn_reporte, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(radio_id)
-                            .addComponent(radio_nombre))
-                        .addGap(18, 18, 18)
-                        .addComponent(txt_seleccion, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addGap(22, 22, 22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txt_categoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17))
         );
-
-        jScrollPane3.setViewportView(jTable2);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(456, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("buscar", jPanel7);
@@ -339,9 +366,8 @@ public class Categoria extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 594, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -367,53 +393,9 @@ public class Categoria extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
-       insertarCliente();
+       insertarCategoria();
        limpiarcliente();
     }//GEN-LAST:event_btn_guardarActionPerformed
-
-    private void txt_idMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_idMouseEntered
-            int in=0;
-           ArrayList<Integer> numeros= new ArrayList<>();
-            try {
-            Connection conexion =con.conectar();
-            PreparedStatement pst1 =conexion.prepareStatement("select idcategoria from categoria");
-            ResultSet rs1 =pst1.executeQuery();
-           
-               while (rs1.next()) {
-                   numeros.add(Integer.parseInt(rs1.getString("idcategoria")));
-                   
-                }
-                
-                 in =numeros.size()+1;
-                
-           
-        } catch (Exception ex) {
-           
-        }
-      
-               
-              
-                String identificador=String.valueOf(in);
-                 this.txt_id.setText(identificador);
-                this.txt_id.setEditable(false);
-    }//GEN-LAST:event_txt_idMouseEntered
-
-    private void radio_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radio_idActionPerformed
-
-    }//GEN-LAST:event_radio_idActionPerformed
-
-    private void btn_reporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reporteActionPerformed
-        if (this.radio_id.isSelected()) {
-            String cons="select idcategoria,categoria from categoria where idcategoria="+this.txt_seleccion.getText();
-            radioClientesId(cons);
-            this.txt_seleccion.setText("");
-
-        }else if(this.radio_nombre.isSelected()){
-            String cons="select idcategoria,categoria from categoria where categoria='"+this.txt_seleccion.getText()+"'";
-            radioClientesId(cons);
-            this.txt_seleccion.setText("");
-        }
-    }//GEN-LAST:event_btn_reporteActionPerformed
 
     private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
        this.btn_modificar.setEnabled(true);
@@ -430,9 +412,68 @@ public class Categoria extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_btn_salirActionPerformed
 
-    private void txt_seleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_seleccionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_seleccionActionPerformed
+    private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
+       if (this.radio_id.isSelected()) {
+           String cons="select *from categoria where idcategoria="+this.txt_seleccion.getText();
+            radioClientesId(cons);
+            this.txt_seleccion.setText("");
+            
+        }else if(this.radio_categoria.isSelected()){
+             String cons="select * from categoria where categoria='"+this.txt_seleccion.getText()+"'";
+            radioClientesId(cons);
+            this.txt_seleccion.setText("");
+        }
+    }//GEN-LAST:event_btn_buscarActionPerformed
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+      int code =this.jTable2.getSelectedRow();
+      String id=this.jTable2.getValueAt(code, 0).toString();
+      String categoria=this.jTable2.getValueAt(code, 1).toString();
+      
+      this.txt_id.setText(id);
+      this.txt_categoria.setText(categoria);
+              
+    }//GEN-LAST:event_jTable2MouseClicked
+
+    private void txt_idMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_idMouseEntered
+           int in=0;
+           ArrayList<Integer> numeros= new ArrayList<>();
+            try {
+            Connection conexion =con.conectar();
+            PreparedStatement pst1 =conexion.prepareStatement("select idcategoria from categoria");
+            ResultSet rs1 =pst1.executeQuery();
+           
+               while (rs1.next()) {
+                   numeros.add(Integer.parseInt(rs1.getString("idcategoria")));
+                   
+                }
+                
+                 in =numeros.get(numeros.size()-1)+1;
+                
+           
+        } catch (Exception ex) {
+           
+        }
+      
+               
+              
+                String identificador=String.valueOf(in);
+                 this.txt_id.setText(identificador);
+                this.txt_id.setEditable(false);
+    }//GEN-LAST:event_txt_idMouseEntered
+
+    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
+       Connection cnx=con.conectar();
+       
+       try{
+           PreparedStatement pst=cnx.prepareStatement("update categoria set categoria=? where idcategoria=?");
+           pst.setString(1, this.txt_categoria.getText());
+           pst.setInt(2, Integer.parseInt(this.txt_id.getText()));
+           pst.execute();
+       }catch(Exception e){
+           JOptionPane.showMessageDialog(null, e);
+       }
+    }//GEN-LAST:event_btn_modificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -471,25 +512,25 @@ public class Categoria extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_modificar;
     private javax.swing.JButton btn_nuevo;
-    private javax.swing.JButton btn_reporte;
     private javax.swing.JButton btn_salir;
     private javax.swing.ButtonGroup grupo1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable2;
+    private javax.swing.JRadioButton radio_categoria;
     private javax.swing.JRadioButton radio_id;
-    private javax.swing.JRadioButton radio_nombre;
     private javax.swing.JTextField txt_categoria;
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_seleccion;

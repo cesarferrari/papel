@@ -6,11 +6,14 @@
 package vista;
 
 import java.awt.List;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.*;
@@ -65,39 +68,167 @@ public class proveedores extends javax.swing.JFrame {
     }
     public void limpiarcliente(){
         this.txt_id.setText(null);
-        this.txt_direccion.setText(null);
-       
+      this.txt_telefono.setText(null);
+       this.txt_nombre.setText(null);
+       this.txt_celular.setText("");
+       this.txt_cuenta1.setText("");
+       this.txt_cuenta2.setText(null);
+       this.txt_direccion.setText(null);
+       this.txt_identificador.setText("");
+       this.txt_email.setText("");
+       this.area_obs.setText(null);
         
         
     }
-           public void insertarCliente(){
+    public void actualizar_proveedor(){
+        Connection cn=con.conectar();
+       String sqlupdate="update proveedores set nombre=?,direccion=?,telefono=?,email=?,fabricacion=?,celular=?,"
+               + "cuenta1=?,cuenta2=?,estado=?,identificacion=? where idProveedor=?";
+        String radio="";
+        try{
+           PreparedStatement cst=cn.prepareStatement(sqlupdate);
+            cst.setString(1,this.txt_nombre.getText());
+            cst.setString(2,this.txt_direccion.getText());
+            cst.setString(3,this.txt_telefono.getText());
+            cst.setString(4,this.txt_email.getText());
+            cst.setString(5,this.area_obs.getText());
+            cst.setString(6,this.txt_celular.getText());
+            cst.setInt(7,Integer.parseInt(this.txt_cuenta1.getText()));
+         cst.setInt(8,Integer.parseInt(this.txt_cuenta2.getText()));
+          
+            if (radio_activo.isSelected()) {
+                radio="activo";
+            }else if(radio_inactivo.isSelected()){
+                radio="inactivo";
+            }
+              cst.setString(9,radio);
+               cst.setString(10,this.txt_identificador.getText());
+               cst.setInt(11,Integer.parseInt(this.txt_id.getText()));
+                    cst.execute();
+                    JOptionPane.showMessageDialog(null,"datos actualizados");
+        }catch(NumberFormatException ex){
+            JOptionPane.showMessageDialog(null,"ingrese en formato de numeros el identificador ");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+        }
+    } 
+ 
+       private String code_prov(){
+        Connection cnxr=con.conectar();
+        String cadena="";
+        try{
+         st=cnxr.createStatement();
+         rs=st.executeQuery("select identificacion from proveedores where identificacion="+this.txt_identificador.getText());
+        String number[]= new String[1];
+        while(rs.next()) {
+          number[0]=rs.getString("identificacion");
+         JOptionPane.showMessageDialog(null,"el id ya es¿xiste en la base de datos ");
+         limpiarcliente();
+        }
+        cnxr.close();
+        }catch(Exception e){
+           
+        }
+        
+        
+        return cadena;
+    }
+    public void empty(){
+        if(this.txt_celular.getText().isEmpty()){
+            this.txt_celular.setText("N/A");
+        }
+         if(this.txt_telefono.getText().isEmpty()){
+            this.txt_telefono.setText("N/A");
+        }
+         if(this.txt_email.getText().isEmpty()){
+            this.txt_celular.setText("N/A");
+        }
+          if(this.txt_cuenta1.getText().isEmpty()){
+         this.txt_cuenta1.setText("0");
+        }
+           if(this.txt_cuenta2.getText().isEmpty()){
+         this.txt_cuenta2.setText("0");
+        }
+            if(this.area_obs.getText().isEmpty()){
+            this.area_obs.setText("N/A");
+        }
+             if(this.txt_direccion.getText().isEmpty()){
+            this.txt_direccion.setText("N/A");
+        }
+              if(this.txt_email.getText().isEmpty()){
+            this.txt_email.setText("N/A");
+        }
+               if(this.txt_identificador.getText().isEmpty()){
+            this.txt_identificador.setText("vacio");
+        }
+              if(this.txt_nombre.getText().isEmpty()){
+            this.txt_nombre.setText("vacio");
+        }
+             
+              
+    }
+    public  boolean validarEmail(String email){
+        
+        Pattern patron =  Pattern.compile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
+        Matcher  matcher=patron.matcher(email);
+        return matcher.find();
+    }
+    
+           public void insertarProveedor(){
              sql="insert into proveedores(idproveedor,nombre,identificacion,direccion ,telefono,celular,email,estado,cuenta1,cuenta2,fabricacion)values"
                      + "(?,?,?,?,?,?,?,?,?,?,?)";
+             String radio="";
                 cnx=con.conectar();
                try{
                PreparedStatement pst=cnx.prepareStatement(sql);
+               empty();
                pst.setString(1, this.txt_id.getText());
                pst.setString(2,this.txt_nombre.getText());
                  pst.setString(3, this.txt_identificador.getText());
-               pst.setString(4,this.txt_direccion.getText());
+                  
+                       pst.setString(4,this.txt_direccion.getText());
+                   
+              
                pst.setString(5, this.txt_telefono.getText());
                 pst.setString(6, this.txt_celular.getText());
                 pst.setString(7, this.txt_email.getText());
                    if (this.radio_activo.isSelected()) {
-                       pst.setString(8, this.radio_activo.getText());
+                       radio="activo";
                    }else if(this.radio_inactivo.isSelected()){
-                        pst.setString(8, this.radio_inactivo.getText());
+                         radio="inactivo";
+                   }else if(radio.equalsIgnoreCase("")){
+                       radio="activo";
                    }
+                   pst.setString(8, radio);
                  pst.setString(9,this.txt_cuenta1.getText());
                pst.setString(10, this.txt_cuenta2.getText());
                pst.setString(11, this.area_obs.getText());
-               int entero=pst.executeUpdate();
+                   
+                    if(this.txt_identificador.getText().equalsIgnoreCase("vacio")){
+                        limpiarcliente();
+                        JOptionPane.showMessageDialog(null,"ingrese un id de proveedor numero");
+                    }else if(this.txt_nombre.getText().equalsIgnoreCase("vacio")){
+                          limpiarcliente();
+                        JOptionPane.showMessageDialog(null,"ingrese un  proveedor ");
+                    } else if(code_prov().equalsIgnoreCase(this.txt_identificador.getText())){
+                        JOptionPane.showMessageDialog(null, "el id ya existe en la base de datos ");
+                        limpiarcliente();
+                    }else{
+                        
+                        int entero=pst.executeUpdate();
                    if (entero>0) {
                        JOptionPane.showMessageDialog(null, "datos ingresados correctamente");
                    }else {
                        JOptionPane.showMessageDialog(null,"llene todos los campos ");
                    }
+                    }
+                        
+                    
+                   
+                         
+                    
                
+                   
                }catch(Exception e){
                    JOptionPane.showMessageDialog(null, e);
                    System.out.println(e.toString());
@@ -185,6 +316,11 @@ public class proveedores extends javax.swing.JFrame {
         btn_modificar.setText("Modificar");
         btn_modificar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btn_modificar.setEnabled(false);
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
 
         btn_cancelar.setBackground(new java.awt.Color(255, 255, 204));
         btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/eliminar.png"))); // NOI18N
@@ -277,7 +413,7 @@ public class proveedores extends javax.swing.JFrame {
                         .addComponent(txt_seleccion, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(49, 49, 49)
                 .addComponent(btn_reporte, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(407, Short.MAX_VALUE))
+                .addContainerGap(600, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,6 +431,18 @@ public class proveedores extends javax.swing.JFrame {
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
+        jTable2 = new javax.swing.JTable(){
+            public boolean isCellEditable(int r,int c){
+                return false;
+            }
+        };
+        jTable2.setFocusable(false);
+        jTable2.getTableHeader().setReorderingAllowed(false);
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTable2);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -341,6 +489,12 @@ public class proveedores extends javax.swing.JFrame {
             }
         });
 
+        txt_identificador.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_identificadorFocusLost(evt);
+            }
+        });
+
         area_obs.setColumns(20);
         area_obs.setRows(5);
         jScrollPane1.setViewportView(area_obs);
@@ -348,6 +502,12 @@ public class proveedores extends javax.swing.JFrame {
         jLabel7.setText("celular");
 
         jLabel8.setText("Email");
+
+        txt_email.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_emailFocusLost(evt);
+            }
+        });
 
         jLabel9.setText("Estado");
 
@@ -425,7 +585,7 @@ public class proveedores extends javax.swing.JFrame {
                                 .addComponent(txt_identificador)
                                 .addComponent(txt_nombre, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(txt_direccion)))))
-                .addContainerGap(369, Short.MAX_VALUE))
+                .addContainerGap(568, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -484,7 +644,7 @@ public class proveedores extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1155, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -513,7 +673,7 @@ public class proveedores extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
-       insertarCliente();
+       insertarProveedor();
        limpiarcliente();
     }//GEN-LAST:event_btn_guardarActionPerformed
 
@@ -577,11 +737,63 @@ public class proveedores extends javax.swing.JFrame {
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
        limpiarcliente();
+          this.jTabbedPane2.setSelectedIndex(1);
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
        System.exit(0);
     }//GEN-LAST:event_btn_salirActionPerformed
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+       int codigo = this.jTable2.getSelectedRow();
+      String id=this.jTable2.getValueAt(codigo,0).toString();
+      String nombre=this.jTable2.getValueAt(codigo,1).toString();
+      String direccion=this.jTable2.getValueAt(codigo,2).toString();
+      String telefono=this.jTable2.getValueAt(codigo,3).toString();
+      String email=this.jTable2.getValueAt(codigo,4).toString();
+      String fabricacion=this.jTable2.getValueAt(codigo,5).toString();
+      String celular=this.jTable2.getValueAt(codigo,6).toString();
+      String cuenta1=this.jTable2.getValueAt(codigo,7).toString();
+      String cuenta2=this.jTable2.getValueAt(codigo,8).toString();
+       String estado=this.jTable2.getValueAt(codigo, 9).toString();
+      String identificacion=this.jTable2.getValueAt(codigo,10).toString();
+      
+        this.txt_id.setText(id);
+        this.txt_nombre.setText(nombre);
+        this.txt_direccion.setText(direccion);
+        this.txt_telefono.setText(telefono);
+        this.txt_email.setText(email);
+        this.area_obs.setText(fabricacion);
+        this.txt_celular.setText(celular);
+        this.txt_cuenta1.setText(cuenta1);
+        this.txt_cuenta2.setText(cuenta2);
+        this.txt_identificador.setText(identificacion);
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_jTable2MouseClicked
+
+    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
+actualizar_proveedor();        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_modificarActionPerformed
+
+    private void txt_identificadorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_identificadorFocusLost
+if(code_prov().equalsIgnoreCase(this.txt_identificador.getText())){
+    JOptionPane.showMessageDialog(null, "el id ya existe en la base d datos ");
+}
+    }//GEN-LAST:event_txt_identificadorFocusLost
+
+    private void txt_emailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_emailFocusLost
+         if (validarEmail(this.txt_email.getText())) {
+            
+        }else{
+             JOptionPane.showMessageDialog(null, "el formato de correo electronico es incorrecto");
+             this.txt_email.setText("");
+         }
+    }//GEN-LAST:event_txt_emailFocusLost
 
     /**
      * @param args the command line arguments

@@ -27,7 +27,7 @@ public class CtrlLogin implements ActionListener {
         this.mod=mod;
         login.btn_ingresarPrincipal.addActionListener(this);
         principal.m_item_salir.addActionListener(this);
-        principal.m_itemCerrarSesion.addActionListener(this);
+      
         
     }
     public void iniciar(){

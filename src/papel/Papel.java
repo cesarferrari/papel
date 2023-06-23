@@ -29,7 +29,7 @@ public class Papel {
   Principal principal= new Principal();
   Calculator_num n= new Calculator_num();
   FrCalculadora cal = new FrCalculadora();
-   FrmProducto fr= new FrmProducto();
+ 
         
         /*   Modelo model= new Modelo();
        Oficina of= new Oficina();

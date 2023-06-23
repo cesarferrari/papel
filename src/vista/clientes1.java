@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import static javafx.scene.input.KeyCode.getKeyCode;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Conexion;
@@ -19,12 +18,12 @@ import vista.Ventas;
 
 public class clientes1 extends javax.swing.JFrame {
 private Ventas vta;
+ Conexion con = new Conexion();
     private DefaultTableModel model;
      private  TextAutoCompleter ac;
     public clientes1() {
         initComponents();
-        Ventas venta= new Ventas();
-        venta.setVisible(true);
+       
     }
 
    public void mostrar(String consulta){
@@ -177,7 +176,7 @@ private Ventas vta;
 
     private void txt_clienteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_clienteMouseEntered
               ac=new TextAutoCompleter(txt_cliente);
-             Conexion con = new Conexion();
+            
        Connection cnx=con.conectar();
        String sql="select id_cliente,nombre,identificacion,telefono,observaciones  from clientes";
        try{
@@ -212,9 +211,10 @@ private Ventas vta;
 
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
         
-       
+       int seleccion=this.jTable1.getSelectedRow();
         try{
          Ventas.txt_cliente.setText(tab());
+          Ventas.cliente=Integer.parseInt(this.jTable1.getValueAt(seleccion, 0).toString());
          dispose();
          
      }catch(Exception e){
@@ -244,7 +244,7 @@ private Ventas vta;
         this.jTable1.getValueAt(seleccion,2).toString(),this.jTable1.getValueAt(seleccion,3).toString(),
         this.jTable1.getValueAt(seleccion,4).toString()};
        
-        
+       
         
         
         return eleccion;

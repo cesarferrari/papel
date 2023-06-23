@@ -22,7 +22,7 @@ private String id="";
 private String usuario;
 private String contraseña;
 private String rol;
-   
+   public String user="";
 
     Productos pr=new Productos();
     ConsultasSQL sql= new ConsultasSQL();
@@ -52,6 +52,12 @@ private String rol;
                  }
                  if (inicio[0].equalsIgnoreCase(pr.getUsuario())&&inicio[1].equalsIgnoreCase(pr.getContraseña())
                          &&inicio[2].equalsIgnoreCase(pr.getRol())) {
+                    
+                    pr. setUsuario(inicio[0]);
+                    pr.setRol(inicio[1]);
+                     
+                     Ventas.user=pr.getUsuario();
+                     Compras.user=pr.getUsuario();
                      bandera=true;
                  }
              }

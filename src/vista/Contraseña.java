@@ -18,8 +18,9 @@ import modelo.Conexion;
  *
  * @author julio
  */
-public class Contraseña extends javax.swing.JFrame {
 
+public class Contraseña extends javax.swing.JFrame {
+Conexion cn= new Conexion();
    private Connection con=null;
    private Statement st;
    private PreparedStatement pst;
@@ -30,7 +31,7 @@ public class Contraseña extends javax.swing.JFrame {
         initComponents();
     }
 public void tabla(){
-    Conexion cn= new Conexion();
+    
     con=cn.conectar();
     model=new DefaultTableModel();
     String tit[]={"id_vendedor","usuario","contraseña","rol"};
@@ -52,6 +53,46 @@ public void tabla(){
         JOptionPane.showMessageDialog(null,e);
     }
 }
+public boolean check_user_pass(){
+    boolean bandera=false;
+     String user=this.txt_usuario.getText();
+       String pass= this.txt_contraseña.getText();
+       String rol=this.jComboBox1.getSelectedItem().toString();
+           String valida_user="";
+           String valida_pass="";
+           String valida_rol="";
+       
+       String sql="select id_vendedor,usuario,contraseña,rol  from vendedor where usuario= ? and contraseña= ? and rol=?";
+       try{
+           Connection con =cn.conectar();
+            PreparedStatement pst =con.prepareStatement(sql);
+            pst.setString(1, user);
+            pst.setString(2, pass);
+            pst.setString(3, this.jComboBox1.getSelectedItem().toString());
+            ResultSet rs =pst.executeQuery();
+           
+           String numero[]= new String[3];
+          
+          
+           while (rs.next()) {
+                 numero[0]=rs.getString("id_vendedor");
+                 valida_user=numero[1]=rs.getString("usuario");
+                  valida_pass=numero[2]=rs.getString("contraseña");
+                  valida_rol=rs.getString("rol");
+            // JOptionPane.showMessageDialog(null,"el usuario y la contraseña  ya existe en la base de datos "+numero[1]+numero[2]);
+              this.txt_usuario.setText("");
+              this.txt_contraseña.setText("");
+           }
+           con.close();
+       }catch(Exception e){
+           JOptionPane.showMessageDialog(null, e);
+       }
+       if (valida_user.equalsIgnoreCase(user)&&valida_pass.equalsIgnoreCase(pass)&&valida_rol.equalsIgnoreCase(rol)) {
+        bandera=true;
+       
+    }
+      return bandera;
+}
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -62,8 +103,8 @@ public void tabla(){
         jTable1 = new javax.swing.JTable();
         btn_cambiar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txt_usuario = new javax.swing.JTextField();
+        txt_contraseña = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -97,7 +138,7 @@ public void tabla(){
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "administrador", "cajero", " " }));
 
-        jLabel1.setText("nombre");
+        jLabel1.setText("usuario");
 
         jLabel2.setText("contraseña");
 
@@ -121,9 +162,9 @@ public void tabla(){
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txt_usuario, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField2)))
+                            .addComponent(txt_contraseña)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -148,11 +189,11 @@ public void tabla(){
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -190,7 +231,7 @@ public void tabla(){
     }//GEN-LAST:event_jButton2ActionPerformed
 public void actualizar(){
   
-    String SQL="update vendedor set usuario='"+  this.jTextField1.getText()+"',contraseña='"+ this.jTextField2.getText()+"',rol='"+ this.jComboBox1.getSelectedItem().toString()+"' where id_vendedor="+ this.jTextField3.getText();
+    String SQL="update vendedor set usuario='"+  this.txt_usuario.getText()+"',contraseña='"+ this.txt_contraseña.getText()+"',rol='"+ this.jComboBox1.getSelectedItem().toString()+"' where id_vendedor="+ this.jTextField3.getText();
     Conexion cn= new Conexion();
     con=cn.conectar();
     try{
@@ -213,9 +254,10 @@ public void actualizar(){
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
        if (evt.getClickCount()==1) {
             JTable Receptor=(JTable)evt.getSource();
-            this.jTextField1.setText(Receptor.getModel().getValueAt(Receptor.getSelectedRow(),1).toString());
-            this.jTextField2.setText(Receptor.getModel().getValueAt(Receptor.getSelectedRow(),2).toString());
+            this.txt_usuario.setText(Receptor.getModel().getValueAt(Receptor.getSelectedRow(),1).toString());
+            this.txt_contraseña.setText(Receptor.getModel().getValueAt(Receptor.getSelectedRow(),2).toString());
              this.jTextField3.setText(Receptor.getModel().getValueAt(Receptor.getSelectedRow(),0).toString());
+             this.jComboBox1.setSelectedItem(Receptor.getModel().getValueAt(Receptor.getSelectedRow(),3));
           //  this.txt_id.setText(Receptor.getModel().getValueAt(Receptor.getSelectedRow(),0).toString());
           //this.jTextField3.enable(false);
         }
@@ -223,11 +265,15 @@ public void actualizar(){
 
     private void btn_cambiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cambiarActionPerformed
      
-        actualizar();
+     if(check_user_pass()){
+         JOptionPane.showMessageDialog(null,"no se pudieron actualizar los datos  ");
+     }else{
+            actualizar();
        tabla();
-       this.jTextField1.setText("");
-       this.jTextField2.setText("");
+       this.txt_usuario.setText("");
+       this.txt_contraseña.setText("");
        this.jTextField3.setText("");
+     }
     }//GEN-LAST:event_btn_cambiarActionPerformed
 
     /**
@@ -276,8 +322,8 @@ public void actualizar(){
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField txt_contraseña;
+    private javax.swing.JTextField txt_usuario;
     // End of variables declaration//GEN-END:variables
 }

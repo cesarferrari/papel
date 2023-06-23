@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modelo.Caja;
 import modelo.Conexion;
 
 /**
@@ -22,10 +23,13 @@ import modelo.Conexion;
 public class productos1 extends javax.swing.JFrame {
 DefaultTableModel model;
 TextAutoCompleter ac;
+public static  String uno="1";
+Caja box;
     public productos1() {
+        
         initComponents();
-           Ventas venta= new Ventas();
-        venta.setVisible(true);
+        //   Ventas venta= new Ventas();
+      //  venta.setVisible(true);
     }
 public void mostrar(String consulta){
             model= new DefaultTableModel();
@@ -38,12 +42,12 @@ public void mostrar(String consulta){
        // st=cnx.createStatement();
        PreparedStatement pst= con.prepareStatement(consulta);
         ResultSet rs=pst.executeQuery();
-        String num[]=new String[6];
+        Object num[]=new Object[6];
             while (rs.next()) {
                num[0]= rs.getString("id");
                 num[1]=rs.getString("nombre");
                  num[2]=rs.getString("descripcion");
-                  num[3]=rs.getString("stock");
+                 num[3]=rs.getInt("stock");
                   num[4]=rs.getString("precio");
                   num[5]=rs.getString("codigo");
              
@@ -132,6 +136,11 @@ public void mostrar(String consulta){
             }
         });
 
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTable1KeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -188,7 +197,7 @@ public void mostrar(String consulta){
                  ac=new TextAutoCompleter(txt_cliente);
              Conexion con = new Conexion();
        Connection cnx=con.conectar();
-       String sql="select id,nombre,descripcion,stock,precio,codigo  from productos";
+       String sql="select id,nombre,descripcion,stock,precio,codigo  from productos1";
        try{
            Statement st =cnx.createStatement();
            ResultSet rs =st.executeQuery(sql);
@@ -208,7 +217,7 @@ public void mostrar(String consulta){
     }//GEN-LAST:event_txt_clienteMouseEntered
 
     private void txt_clienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_clienteKeyTyped
-          String nombre="select id,nombre,descripcion,stock,precio,codigo from productos where nombre ='"+txt_cliente.getText()+"'";
+          String nombre="select id,nombre,descripcion,stock,precio,codigo from productos1 where nombre ='"+txt_cliente.getText()+"'";
          
         if (evt.getKeyChar()==VK_ENTER) {
            
@@ -222,26 +231,45 @@ public void mostrar(String consulta){
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
             try{
         tab();
-        dispose();
+        this.dispose();
      }catch(Exception e){
-         JOptionPane.showMessageDialog(null,"selecciona una opcion");
+         JOptionPane.showMessageDialog(null,e+"selecciona un producto de la lista desplegable + enter y selecciones un producto de la tabla");
      }
        
       
     }//GEN-LAST:event_btn_salirActionPerformed
 
+    private void jTable1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyTyped
+        if(evt.getKeyChar()==VK_ENTER){
+                  try{
+        tab();
+        this.dispose();
+     }catch(Exception e){
+         JOptionPane.showMessageDialog(null,e+"selecciona un producto de la lista desplegable + enter y selecciones un producto de la tabla");
+     }
+       
+        }
+    }//GEN-LAST:event_jTable1KeyTyped
+
     public void tab(){
-        
+        box=new Caja();
             int seleccion=this.jTable1.getSelectedRow();
-       
-        
-       
+       int Dstock=Integer.parseInt(this.jTable1.getValueAt(seleccion,3).toString());
+        int Tstock=Dstock-box.getDisponible();
+      
          Ventas.txt_codigo.setText(this.jTable1.getValueAt(seleccion,5).toString());
+      
          Ventas.txt_nombre.setText(this.jTable1.getValueAt(seleccion,1).toString());
+         Ventas.txt_nombre.setEditable(false);
          Ventas.txt_precio.setText(this.jTable1.getValueAt(seleccion,4).toString());
-         Ventas.txt_stock.setText(this.jTable1.getValueAt(seleccion,3).toString());
-        
-        
+         Ventas.txt_precio.setEditable(false);
+         Ventas.txt_stock.setText(""+Tstock);
+         Ventas.txt_stock.setEditable(false);
+         
+       
+     
+     
+        this.dispose();
     }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

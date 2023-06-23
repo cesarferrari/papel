@@ -16,9 +16,12 @@ import javax.swing.JOptionPane;
 public class Conexion {
       Connection conectar=null;
       public Connection conectar(){
-        final String url="jdbc:mysql://192.168.1.73:3306/ecatepec_fisica1";
+      /*  final String url="jdbc:mysql://192.168.1.73:3306/ecatepec_fisica1";
         final String root="victoria";
-        final String password="1234";
+        final String password="1234";*/
+       final String url="jdbc:mysql://localhost/ecatepec";
+        final String root="root";
+        final String password="";
        try{
           Class.forName("com.mysql.cj.jdbc.Driver");
            conectar=DriverManager.getConnection(url, root, password);

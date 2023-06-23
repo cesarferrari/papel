@@ -5,19 +5,29 @@
  */
 package vista;
 
-import controlador.CtrlProductos;
-import javax.swing.JOptionPane;
 
+import clases.Arreglos;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import modelo.*;
 /**
  *
  * @author julio
  */
 public class Principal extends javax.swing.JFrame {
-
-    /**
-     * Creates new form Principal
-     */
+    Productos pr= new Productos();
+   fondo fr= new fondo();
     public Principal() {
+     
         initComponents();
         setLocationRelativeTo(null);
         setTitle("principal");
@@ -37,7 +47,6 @@ public class Principal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menu_archivo = new javax.swing.JMenu();
-        m_itemCerrarSesion = new javax.swing.JMenuItem();
         m_item_salir = new javax.swing.JMenuItem();
         menu_almacen = new javax.swing.JMenu();
         item_producto = new javax.swing.JMenuItem();
@@ -58,24 +67,21 @@ public class Principal extends javax.swing.JFrame {
         menu_mantenimiento = new javax.swing.JMenu();
         item_empleado = new javax.swing.JMenuItem();
         item_tipoDocumento = new javax.swing.JMenuItem();
-        item_tipoUsuario = new javax.swing.JMenuItem();
         menu_cancelaciones = new javax.swing.JMenu();
         item_cancelaCompra = new javax.swing.JMenuItem();
         item_cancelaVenta = new javax.swing.JMenuItem();
         menu_herramientas = new javax.swing.JMenu();
         item_contraseña = new javax.swing.JMenuItem();
         item_calculadora = new javax.swing.JMenuItem();
-        item_respaldoBD = new javax.swing.JMenuItem();
-        item_restaurarBD = new javax.swing.JMenuItem();
         menu_ayuda = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
 
         jMenu4.setText("jMenu4");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel1.setBackground(new java.awt.Color(0, 255, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -85,23 +91,14 @@ public class Principal extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 529, Short.MAX_VALUE)
+            .addGap(0, 525, Short.MAX_VALUE)
         );
 
-        menu_archivo.setForeground(new java.awt.Color(51, 51, 51));
-        menu_archivo.setText("archivo");
-
-        m_itemCerrarSesion.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
-        m_itemCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/salir_1.png"))); // NOI18N
-        m_itemCerrarSesion.setText("cerrar sesion");
-        m_itemCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_itemCerrarSesionActionPerformed(evt);
-            }
-        });
-        menu_archivo.add(m_itemCerrarSesion);
+        menu_archivo.setText("Archivo");
+        menu_archivo.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
 
         m_item_salir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        m_item_salir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         m_item_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/eliminar.png"))); // NOI18N
         m_item_salir.setText("cerrar aplicacion");
         m_item_salir.addActionListener(new java.awt.event.ActionListener() {
@@ -113,9 +110,11 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(menu_archivo);
 
-        menu_almacen.setText("almacen");
+        menu_almacen.setText("Almacen");
+        menu_almacen.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
 
         item_producto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_6, java.awt.event.InputEvent.CTRL_MASK));
+        item_producto.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         item_producto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/producto.png"))); // NOI18N
         item_producto.setText("producto");
         item_producto.addActionListener(new java.awt.event.ActionListener() {
@@ -126,6 +125,7 @@ public class Principal extends javax.swing.JFrame {
         menu_almacen.add(item_producto);
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F10, 0));
+        jMenuItem5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/lupa.png"))); // NOI18N
         jMenuItem5.setText("categoria");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -137,9 +137,11 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(menu_almacen);
 
-        menu_compras.setText("compras");
+        menu_compras.setText("Compras");
+        menu_compras.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        jMenuItem6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/Carrito-de-compras.png"))); // NOI18N
         jMenuItem6.setText("compra");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -150,6 +152,7 @@ public class Principal extends javax.swing.JFrame {
         menu_compras.add(jMenuItem6);
 
         item_proveedor.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
+        item_proveedor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         item_proveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/proveedor.png"))); // NOI18N
         item_proveedor.setText("proveedor");
         item_proveedor.addActionListener(new java.awt.event.ActionListener() {
@@ -161,9 +164,11 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(menu_compras);
 
-        menu_ventas.setText("ventas");
+        menu_ventas.setText("Ventas");
+        menu_ventas.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
 
         item_venta.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_CONTROL, 0));
+        item_venta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         item_venta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/Nventa.png"))); // NOI18N
         item_venta.setText("venta");
         item_venta.addActionListener(new java.awt.event.ActionListener() {
@@ -174,6 +179,7 @@ public class Principal extends javax.swing.JFrame {
         menu_ventas.add(item_venta);
 
         item_verificarProducto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, 0));
+        item_verificarProducto.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         item_verificarProducto.setText("verificar producto");
         item_verificarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,6 +189,7 @@ public class Principal extends javax.swing.JFrame {
         menu_ventas.add(item_verificarProducto);
 
         item_cliente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, 0));
+        item_cliente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         item_cliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/Clientes.png"))); // NOI18N
         item_cliente.setText("cliente");
         item_cliente.addActionListener(new java.awt.event.ActionListener() {
@@ -194,38 +201,71 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(menu_ventas);
 
-        menu_consultas.setText("consultas");
+        menu_consultas.setText("Consultas");
+        menu_consultas.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
 
         item_ventasRealizadas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
+        item_ventasRealizadas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         item_ventasRealizadas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/money.png"))); // NOI18N
         item_ventasRealizadas.setText("ventas realizadas");
+        item_ventasRealizadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                item_ventasRealizadasActionPerformed(evt);
+            }
+        });
         menu_consultas.add(item_ventasRealizadas);
 
         item_ventasDetalladas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
+        item_ventasDetalladas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         item_ventasDetalladas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/report.png"))); // NOI18N
         item_ventasDetalladas.setText("ventas detalladas");
+        item_ventasDetalladas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                item_ventasDetalladasActionPerformed(evt);
+            }
+        });
         menu_consultas.add(item_ventasDetalladas);
 
         estadistica_mensual.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_TAB, java.awt.event.InputEvent.ALT_MASK));
+        estadistica_mensual.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         estadistica_mensual.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/torta.png"))); // NOI18N
         estadistica_mensual.setText("estadistica mensual");
+        estadistica_mensual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                estadistica_mensualActionPerformed(evt);
+            }
+        });
         menu_consultas.add(estadistica_mensual);
 
         item_comprasRealizadas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
+        item_comprasRealizadas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         item_comprasRealizadas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/compras.png"))); // NOI18N
         item_comprasRealizadas.setText("compras realizadas");
+        item_comprasRealizadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                item_comprasRealizadasActionPerformed(evt);
+            }
+        });
         menu_consultas.add(item_comprasRealizadas);
 
         item_comprasDetalladas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_9, java.awt.event.InputEvent.CTRL_MASK));
+        item_comprasDetalladas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         item_comprasDetalladas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/Carrito-de-compras.png"))); // NOI18N
         item_comprasDetalladas.setText("compras detalladas ");
+        item_comprasDetalladas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                item_comprasDetalladasActionPerformed(evt);
+            }
+        });
         menu_consultas.add(item_comprasDetalladas);
 
         jMenuBar1.add(menu_consultas);
 
-        menu_mantenimiento.setText("mantenimiento");
+        menu_mantenimiento.setText("Mantenimiento");
+        menu_mantenimiento.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
 
         item_empleado.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.CTRL_MASK));
+        item_empleado.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         item_empleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/Clientes.png"))); // NOI18N
         item_empleado.setText("empleado");
         item_empleado.addActionListener(new java.awt.event.ActionListener() {
@@ -236,36 +276,47 @@ public class Principal extends javax.swing.JFrame {
         menu_mantenimiento.add(item_empleado);
 
         item_tipoDocumento.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.CTRL_MASK));
+        item_tipoDocumento.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         item_tipoDocumento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/excel.png"))); // NOI18N
-        item_tipoDocumento.setText("tipo documento");
-        menu_mantenimiento.add(item_tipoDocumento);
-
-        item_tipoUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_5, java.awt.event.InputEvent.CTRL_MASK));
-        item_tipoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/proveedor.png"))); // NOI18N
-        item_tipoUsuario.setText("tipo usuario");
-        item_tipoUsuario.addActionListener(new java.awt.event.ActionListener() {
+        item_tipoDocumento.setText("Inventario");
+        item_tipoDocumento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                item_tipoUsuarioActionPerformed(evt);
+                item_tipoDocumentoActionPerformed(evt);
             }
         });
-        menu_mantenimiento.add(item_tipoUsuario);
+        menu_mantenimiento.add(item_tipoDocumento);
 
         jMenuBar1.add(menu_mantenimiento);
 
-        menu_cancelaciones.setText("cancelaciones");
+        menu_cancelaciones.setText("Cancelaciones");
+        menu_cancelaciones.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
 
+        item_cancelaCompra.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         item_cancelaCompra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/borrar.png"))); // NOI18N
         item_cancelaCompra.setText("cancelar compra");
+        item_cancelaCompra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                item_cancelaCompraActionPerformed(evt);
+            }
+        });
         menu_cancelaciones.add(item_cancelaCompra);
 
+        item_cancelaVenta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         item_cancelaVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/eliminar.png"))); // NOI18N
         item_cancelaVenta.setText("cancelar venta");
+        item_cancelaVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                item_cancelaVentaActionPerformed(evt);
+            }
+        });
         menu_cancelaciones.add(item_cancelaVenta);
 
         jMenuBar1.add(menu_cancelaciones);
 
-        menu_herramientas.setText("herramientas");
+        menu_herramientas.setText("Herramientas");
+        menu_herramientas.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
 
+        item_contraseña.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         item_contraseña.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/Actualizar (2).png"))); // NOI18N
         item_contraseña.setText("cambiar contraseña");
         item_contraseña.addActionListener(new java.awt.event.ActionListener() {
@@ -275,6 +326,7 @@ public class Principal extends javax.swing.JFrame {
         });
         menu_herramientas.add(item_contraseña);
 
+        item_calculadora.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         item_calculadora.setText("calculadora");
         item_calculadora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -283,16 +335,10 @@ public class Principal extends javax.swing.JFrame {
         });
         menu_herramientas.add(item_calculadora);
 
-        item_respaldoBD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/GuardarTodo.png"))); // NOI18N
-        item_respaldoBD.setText("respaldar BD");
-        menu_herramientas.add(item_respaldoBD);
-
-        item_restaurarBD.setText("restaurar BD");
-        menu_herramientas.add(item_restaurarBD);
-
         jMenuBar1.add(menu_herramientas);
 
-        menu_ayuda.setText("ayuda");
+        menu_ayuda.setText("Ayuda");
+        menu_ayuda.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/ayuda.png"))); // NOI18N
         menu_ayuda.add(jMenu3);
@@ -315,12 +361,8 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void item_tipoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_tipoUsuarioActionPerformed
-       
-    }//GEN-LAST:event_item_tipoUsuarioActionPerformed
-
     private void item_calculadoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_calculadoraActionPerformed
-FrCalculadora calcu= new FrCalculadora();   
+FRMcalculadora calcu= new FRMcalculadora();   
 calcu.setVisible(true);
     }//GEN-LAST:event_item_calculadoraActionPerformed
 
@@ -328,14 +370,10 @@ calcu.setVisible(true);
        System.exit(0);
     }//GEN-LAST:event_m_item_salirActionPerformed
 
-    private void m_itemCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_itemCerrarSesionActionPerformed
-    this.setVisible(false);
-    new Login().setVisible(true);
-    }//GEN-LAST:event_m_itemCerrarSesionActionPerformed
-
     private void item_ventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_ventaActionPerformed
      Ventas vta= new Ventas();
      vta.setVisible(true);
+       
     
     }//GEN-LAST:event_item_ventaActionPerformed
 
@@ -347,7 +385,7 @@ calcu.setVisible(true);
     }//GEN-LAST:event_item_contraseñaActionPerformed
 
     private void item_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_productoActionPerformed
-       FrmProducto product= new FrmProducto();
+       FRProducto product= new FRProducto();
        product.setVisible(true);
     //   CtrlProductos pro= new CtrlProductos(Producto pr,FrmProducto fPr,Modelo mod);
     }//GEN-LAST:event_item_productoActionPerformed
@@ -359,7 +397,7 @@ calcu.setVisible(true);
     }//GEN-LAST:event_item_empleadoActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-new Compra().setVisible(true);        // TODO add your handling code here:
+new Compras().setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void item_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_clienteActionPerformed
@@ -379,6 +417,68 @@ new Compra().setVisible(true);        // TODO add your handling code here:
        new Verificar_producto().setVisible(true);
     }//GEN-LAST:event_item_verificarProductoActionPerformed
 
+    private void item_ventasRealizadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_ventasRealizadasActionPerformed
+       new  ventas_realizadas1().setVisible(true);
+    }//GEN-LAST:event_item_ventasRealizadasActionPerformed
+
+    private void item_ventasDetalladasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_ventasDetalladasActionPerformed
+       new  ventas_realizadas().setVisible(true);
+    }//GEN-LAST:event_item_ventasDetalladasActionPerformed
+
+    private void estadistica_mensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estadistica_mensualActionPerformed
+        new grafica().setVisible(true);
+        
+        grafica.first.setText("12");
+         grafica.second.setText("40");
+          grafica.third.setText("10");
+           grafica.fourth.setText("10");
+            grafica.fifth.setText("20");
+            int res=Integer.parseInt(grafica.first.getText())+Integer.parseInt(grafica.second.getText());
+            grafica.resultado=res;
+           
+    }//GEN-LAST:event_estadistica_mensualActionPerformed
+
+    private void item_cancelaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_cancelaVentaActionPerformed
+       new Cancelar_venta().setVisible(true);
+    }//GEN-LAST:event_item_cancelaVentaActionPerformed
+
+    private void item_comprasRealizadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_comprasRealizadasActionPerformed
+       
+         new compras_realizadas1().setVisible(true);
+    }//GEN-LAST:event_item_comprasRealizadasActionPerformed
+
+    private void item_comprasDetalladasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_comprasDetalladasActionPerformed
+          new compras_realizadas().setVisible(true);
+    }//GEN-LAST:event_item_comprasDetalladasActionPerformed
+
+    private void item_cancelaCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_cancelaCompraActionPerformed
+        new cancelar_compra().setVisible(true);
+    }//GEN-LAST:event_item_cancelaCompraActionPerformed
+
+    private void item_tipoDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_tipoDocumentoActionPerformed
+      new Inventario().setVisible(true);
+    }//GEN-LAST:event_item_tipoDocumentoActionPerformed
+public void respaldo(){
+        try {
+            Process p;
+            p=Runtime.getRuntime().exec("mysqldump -u root -p ecatepec_fisica");
+            InputStream is=p.getInputStream();
+            FileOutputStream fos=new FileOutputStream("resp_sql/backup_papel.sql");
+            byte[]buffer =new byte[1000];
+            int leido=is.read(buffer);
+            while (leido>0) {
+                fos.write(buffer,0,leido);
+                leido=is.read(buffer);
+            }
+            fos.close();
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
+public void restaura(){
+    
+}
     /**
      * @param args the command line arguments
      */
@@ -426,10 +526,7 @@ new Compra().setVisible(true);        // TODO add your handling code here:
     public javax.swing.JMenuItem item_empleado;
     public javax.swing.JMenuItem item_producto;
     public javax.swing.JMenuItem item_proveedor;
-    public javax.swing.JMenuItem item_respaldoBD;
-    public javax.swing.JMenuItem item_restaurarBD;
     public javax.swing.JMenuItem item_tipoDocumento;
-    public javax.swing.JMenuItem item_tipoUsuario;
     public javax.swing.JMenuItem item_venta;
     public javax.swing.JMenuItem item_ventasDetalladas;
     public javax.swing.JMenuItem item_ventasRealizadas;
@@ -440,7 +537,6 @@ new Compra().setVisible(true);        // TODO add your handling code here:
     public javax.swing.JMenuItem jMenuItem5;
     public javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
-    public javax.swing.JMenuItem m_itemCerrarSesion;
     public javax.swing.JMenuItem m_item_salir;
     public javax.swing.JMenu menu_almacen;
     public javax.swing.JMenu menu_archivo;
@@ -452,4 +548,16 @@ new Compra().setVisible(true);        // TODO add your handling code here:
     public javax.swing.JMenu menu_mantenimiento;
     public javax.swing.JMenu menu_ventas;
     // End of variables declaration//GEN-END:variables
+class fondo extends JPanel{
+    Image imagen;
+    @Override
+    public void paint(Graphics g){
+        imagen=new ImageIcon(getClass().getResource("imagen/fongo.png")).getImage();
+        g.drawImage(imagen, 0, 0,getWidth(), getHeight(),this);
+        setOpaque(false);
+        super.paint(g);
+        
+    }
 }
+}
+
