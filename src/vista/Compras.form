@@ -428,8 +428,8 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="txt_codigo" min="-2" pref="160" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="btn_codigo" min="-2" pref="40" max="-2" attributes="0"/>
-                                  <EmptySpace pref="61" max="32767" attributes="0"/>
+                                  <Component id="btn_nuevoProducto" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                                   <Component id="txt_stock" min="-2" pref="98" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                               </Group>
@@ -464,12 +464,12 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jCheckBox1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jCheckBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
@@ -490,10 +490,7 @@
                                       <Component id="txt_precio" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btn_codigo" min="-2" pref="40" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="btn_nuevoProducto" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
@@ -562,17 +559,6 @@
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JButton" name="btn_codigo">
-                  <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/img/Img/lupa.png"/>
-                    </Property>
-                    <Property name="enabled" type="boolean" value="false"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_codigoActionPerformed"/>
-                  </Events>
-                </Component>
                 <Component class="javax.swing.JLabel" name="jLabel15">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -633,6 +619,17 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Precio proveedor"/>
                   </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="btn_nuevoProducto">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/img/Img/lupa.png"/>
+                    </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_nuevoProductoActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -791,6 +788,9 @@
                   <Font name="Tahoma" size="18" style="1"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_noVentaActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

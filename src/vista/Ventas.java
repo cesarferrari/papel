@@ -97,7 +97,7 @@ public static int cliente=1;
            
             try {
             Connection conexion =con.conectar();
-            PreparedStatement pst1 =conexion.prepareStatement("select codigo from venta");
+            PreparedStatement pst1 =conexion.prepareStatement("select codigo from venta order by  codigo  desc limit 1;");
             ResultSet rs1 =pst1.executeQuery();
            
                while (rs1.next()) {
@@ -130,7 +130,21 @@ public static int cliente=1;
       
         return vta;
     }
-    
+    public int codigoVenta(){
+    int code=0;
+    try{
+        Connection cnx=con.conectar();
+        PreparedStatement pst=cnx.prepareStatement("select codigo from venta order by  codigo  desc limit 1;");
+        ResultSet rs=pst.executeQuery();
+        while(rs.next()){
+            code=Integer.parseInt(rs.getString("codigo"));
+        }
+        code++;
+    }catch(Exception e){
+        
+    }
+    return code;
+}
    public void  insertaVenta(){
        Connection cnx=con.conectar();
        String sql="insert into venta(id_cliente,vendedor,productos,total,codigo,fecha)values(?,?,?,?,?,?)";
@@ -1103,12 +1117,12 @@ this.txt_serie.setEnabled(false);
     }//GEN-LAST:event_btn_nuevoActionPerformed
 
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
-       int jp= JOptionPane.showConfirmDialog(this,"desea cancelar la venta","confirmar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+       int jp= JOptionPane.showConfirmDialog(this,"desea salir de ventas","confirmar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (jp==JOptionPane.YES_OPTION) {
           clean();
        restaura();
        limpia_tabla();
-         System.exit(0);
+         dispose();
         }else if(jp==JOptionPane.NO_OPTION){
              JOptionPane.showMessageDialog(null, "ok  continuar");
         }

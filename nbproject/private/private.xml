@@ -3,15 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Documentos/NetBeansProjects/papel/src/modelo/Conexion.java</file>
-            <file>file:/E:/Documentos/NetBeansProjects/papel/src/vista/Principal.java</file>
-            <file>file:/E:/Documentos/NetBeansProjects/papel/src/vista/FRProducto1.java</file>
-            <file>file:/E:/Documentos/NetBeansProjects/papel/src/vista/Verificar_producto.java</file>
-            <file>file:/E:/Documentos/NetBeansProjects/papel/src/modelo/Productos.java</file>
-            <file>file:/E:/Documentos/NetBeansProjects/papel/src/modelo/Calculator_num.java</file>
-            <file>file:/E:/Documentos/NetBeansProjects/papel/src/modelo/Caja.java</file>
-            <file>file:/E:/Documentos/NetBeansProjects/papel/src/clases/Arreglos.java</file>
-            <file>file:/E:/Documentos/NetBeansProjects/papel/src/controlador/Controladorcalc.java</file>
+            <file>file:/E:/Documentos/NetBeansProjects/papel/src/controlador/CtrlLogin.java</file>
+            <file>file:/E:/Documentos/NetBeansProjects/papel/src/vista/FRProducto.java</file>
+            <file>file:/E:/Documentos/NetBeansProjects/papel/src/vista/Inventario.java</file>
+            <file>file:/E:/Documentos/NetBeansProjects/papel/src/vista/Usuarios.java</file>
+            <file>file:/E:/Documentos/NetBeansProjects/papel/src/vista/Compras.java</file>
+            <file>file:/E:/Documentos/NetBeansProjects/papel/src/vista/Ventas.java</file>
+            <file>file:/E:/Documentos/NetBeansProjects/papel/src/modelo/Modelo.java</file>
+            <file>file:/E:/Documentos/NetBeansProjects/papel/src/vista/cancelar_compra.java</file>
         </group>
     </open-files>
 </project-private>

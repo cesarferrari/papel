@@ -4,7 +4,7 @@
  */
 package vista;
 
-import clases.Arreglos;
+
 import java.util.*;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -21,7 +21,7 @@ public static int  resultado;
         initComponents();
     
     }
-  Arreglos ar= new Arreglos();
+ 
    
       
 

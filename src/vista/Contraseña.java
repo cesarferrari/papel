@@ -26,28 +26,37 @@ Conexion cn= new Conexion();
    private PreparedStatement pst;
    private ResultSet rs;
    private DefaultTableModel model;
-   private String sql="select*from vendedor";
+   public static String user="";
+  
     public Contraseña() {
         initComponents();
     }
 public void tabla(){
-    
+     String sql="select*from vendedor where usuario=?";
     con=cn.conectar();
     model=new DefaultTableModel();
-    String tit[]={"id_vendedor","usuario","contraseña","rol"};
+    String tit[]={"usuario","contraseña","telefono","celular","direccion"};
     model.setColumnIdentifiers(tit);
     try{
-    st=con.createStatement();
-    rs=st.executeQuery(sql);
-    String[]number= new String[4];
+   pst=con.prepareStatement(sql);
+   pst.setString(1, user);
+    rs=pst.executeQuery();
+    String[]number= new String[5];
         while (rs.next()) {
-            number[0]=rs.getString("id_vendedor");
-            number[1]=rs.getString("usuario");
-            number[2]=rs.getString("contraseña");
-            number[3]=rs.getString("rol");
+            
+            number[0]=rs.getString("usuario");
+            number[1]=rs.getString("contraseña");
+            number[2]=rs.getString("telefono");
+            number[3]=rs.getString("telefonoCelular");
+            number[4]=rs.getString("direccion");
             model.addRow(number);
+            this.txt_usuario.setText(rs.getString("usuario"));
+            this.txt_contraseña.setText(rs.getString("contraseña"));
+            this.txt_telefono.setText(rs.getString("telefono"));
+            this.txt_celular.setText(rs.getString("telefonoCelular"));
+            this.txt_direccion.append(rs.getString("direccion"));
         }
-        this.jTable1.setModel(model);
+       
         con.close();
     }catch(Exception e){
         JOptionPane.showMessageDialog(null,e);
@@ -55,9 +64,9 @@ public void tabla(){
 }
 public boolean check_user_pass(){
     boolean bandera=false;
-     String user=this.txt_usuario.getText();
+    // String user=this.txt_usuario.getText();
        String pass= this.txt_contraseña.getText();
-       String rol=this.jComboBox1.getSelectedItem().toString();
+      
            String valida_user="";
            String valida_pass="";
            String valida_rol="";
@@ -68,7 +77,7 @@ public boolean check_user_pass(){
             PreparedStatement pst =con.prepareStatement(sql);
             pst.setString(1, user);
             pst.setString(2, pass);
-            pst.setString(3, this.jComboBox1.getSelectedItem().toString());
+          //  pst.setString(3, this.jComboBox1.getSelectedItem().toString());
             ResultSet rs =pst.executeQuery();
            
            String numero[]= new String[3];
@@ -87,7 +96,7 @@ public boolean check_user_pass(){
        }catch(Exception e){
            JOptionPane.showMessageDialog(null, e);
        }
-       if (valida_user.equalsIgnoreCase(user)&&valida_pass.equalsIgnoreCase(pass)&&valida_rol.equalsIgnoreCase(rol)) {
+       if (valida_user.equalsIgnoreCase(user)&&valida_pass.equalsIgnoreCase(pass)&&valida_rol.equalsIgnoreCase("")) {
         bandera=true;
        
     }
@@ -99,36 +108,39 @@ public boolean check_user_pass(){
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         btn_cambiar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         txt_usuario = new javax.swing.JTextField();
-        txt_contraseña = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txt_contraseña = new javax.swing.JPasswordField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        txt_celular = new javax.swing.JTextField();
+        txt_telefono = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txt_direccion = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("contraseña");
 
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
+        jPanel1.setBackground(new java.awt.Color(0, 255, 204));
 
+        btn_cambiar.setBackground(new java.awt.Color(0, 0, 153));
+        btn_cambiar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btn_cambiar.setForeground(new java.awt.Color(255, 255, 255));
         btn_cambiar.setText("cambiar");
+        btn_cambiar.setEnabled(false);
         btn_cambiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cambiarActionPerformed(evt);
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(0, 0, 153));
+        jButton2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("mostrar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,110 +148,127 @@ public boolean check_user_pass(){
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "administrador", "cajero", " " }));
-
         jLabel1.setText("usuario");
 
         jLabel2.setText("contraseña");
 
-        jLabel3.setText("rol");
+        txt_contraseña.setText("jPasswordField1");
 
-        jLabel4.setText("ID vendedor");
+        jLabel5.setText("Direccion");
 
-        jTextField3.setEditable(false);
+        jLabel6.setText("Telefono");
+
+        jLabel7.setText(" Celular");
+
+        txt_direccion.setColumns(20);
+        txt_direccion.setRows(5);
+        jScrollPane2.setViewportView(txt_direccion);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_usuario, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txt_contraseña)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btn_cambiar)
-                                .addGap(50, 50, 50)
-                                .addComponent(jButton2))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(24, 24, 24)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 32, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                                .addComponent(jButton2)
+                                .addGap(89, 89, 89))
+                            .addComponent(jScrollPane2)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel7)
+                            .addGap(28, 28, 28)
+                            .addComponent(txt_celular))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel6)
+                            .addGap(22, 22, 22)
+                            .addComponent(txt_telefono))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel1))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txt_usuario)
+                                .addComponent(txt_contraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(44, 44, 44)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_cambiar)
-                    .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txt_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(txt_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txt_celular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
+                    .addComponent(btn_cambiar))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        tabla(
-        );
+        tabla();
+        this.btn_cambiar.setEnabled(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 public void actualizar(){
   
-    String SQL="update vendedor set usuario='"+  this.txt_usuario.getText()+"',contraseña='"+ this.txt_contraseña.getText()+"',rol='"+ this.jComboBox1.getSelectedItem().toString()+"' where id_vendedor="+ this.jTextField3.getText();
+    String SQL="update vendedor set contraseña=?,telefono=?,telefonoCelular=?,direccion=? where usuario=?";
     Conexion cn= new Conexion();
     con=cn.conectar();
     try{
         pst=con.prepareStatement(SQL);
-        
-       
-     
-      
+        pst.setString(1, this.txt_contraseña.getText());
+       pst.setString(2, this.txt_telefono.getText());
+     pst.setString(3, this.txt_celular.getText());
+      pst.setString(4, this.txt_direccion.getText());
+      pst.setString(5, user);
         
         pst.executeUpdate();
     JOptionPane.showMessageDialog(null, "los datos se actualizaron correctamente ");
@@ -251,31 +280,21 @@ public void actualizar(){
     
     
 }
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-       if (evt.getClickCount()==1) {
-            JTable Receptor=(JTable)evt.getSource();
-            this.txt_usuario.setText(Receptor.getModel().getValueAt(Receptor.getSelectedRow(),1).toString());
-            this.txt_contraseña.setText(Receptor.getModel().getValueAt(Receptor.getSelectedRow(),2).toString());
-             this.jTextField3.setText(Receptor.getModel().getValueAt(Receptor.getSelectedRow(),0).toString());
-             this.jComboBox1.setSelectedItem(Receptor.getModel().getValueAt(Receptor.getSelectedRow(),3));
-          //  this.txt_id.setText(Receptor.getModel().getValueAt(Receptor.getSelectedRow(),0).toString());
-          //this.jTextField3.enable(false);
-        }
-    }//GEN-LAST:event_jTable1MouseClicked
-
     private void btn_cambiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cambiarActionPerformed
      
-     if(check_user_pass()){
-         JOptionPane.showMessageDialog(null,"no se pudieron actualizar los datos  ");
+     if(this.txt_contraseña.getText().isEmpty()){
+         JOptionPane.showMessageDialog(null,"debe ingresar una contraseña");
      }else{
             actualizar();
        tabla();
        this.txt_usuario.setText("");
        this.txt_contraseña.setText("");
-       this.jTextField3.setText("");
-     }
+       this.txt_telefono.setText("");
+       this.txt_celular.setText("");
+       this.txt_direccion.setText("");
+     
     }//GEN-LAST:event_btn_cambiarActionPerformed
-
+    }
     /**
      * @param args the command line arguments
      */
@@ -314,16 +333,17 @@ public void actualizar(){
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cambiar;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField txt_contraseña;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField txt_celular;
+    public javax.swing.JPasswordField txt_contraseña;
+    private javax.swing.JTextArea txt_direccion;
+    private javax.swing.JTextField txt_telefono;
     private javax.swing.JTextField txt_usuario;
     // End of variables declaration//GEN-END:variables
 }

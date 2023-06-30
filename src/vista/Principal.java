@@ -6,7 +6,7 @@
 package vista;
 
 
-import clases.Arreglos;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -61,7 +61,6 @@ public class Principal extends javax.swing.JFrame {
         menu_consultas = new javax.swing.JMenu();
         item_ventasRealizadas = new javax.swing.JMenuItem();
         item_ventasDetalladas = new javax.swing.JMenuItem();
-        estadistica_mensual = new javax.swing.JMenuItem();
         item_comprasRealizadas = new javax.swing.JMenuItem();
         item_comprasDetalladas = new javax.swing.JMenuItem();
         menu_mantenimiento = new javax.swing.JMenu();
@@ -225,17 +224,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         menu_consultas.add(item_ventasDetalladas);
-
-        estadistica_mensual.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_TAB, java.awt.event.InputEvent.ALT_MASK));
-        estadistica_mensual.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        estadistica_mensual.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/torta.png"))); // NOI18N
-        estadistica_mensual.setText("estadistica mensual");
-        estadistica_mensual.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                estadistica_mensualActionPerformed(evt);
-            }
-        });
-        menu_consultas.add(estadistica_mensual);
 
         item_comprasRealizadas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
         item_comprasRealizadas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -425,19 +413,6 @@ new Compras().setVisible(true);        // TODO add your handling code here:
        new  ventas_realizadas().setVisible(true);
     }//GEN-LAST:event_item_ventasDetalladasActionPerformed
 
-    private void estadistica_mensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estadistica_mensualActionPerformed
-        new grafica().setVisible(true);
-        
-        grafica.first.setText("12");
-         grafica.second.setText("40");
-          grafica.third.setText("10");
-           grafica.fourth.setText("10");
-            grafica.fifth.setText("20");
-            int res=Integer.parseInt(grafica.first.getText())+Integer.parseInt(grafica.second.getText());
-            grafica.resultado=res;
-           
-    }//GEN-LAST:event_estadistica_mensualActionPerformed
-
     private void item_cancelaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_cancelaVentaActionPerformed
        new Cancelar_venta().setVisible(true);
     }//GEN-LAST:event_item_cancelaVentaActionPerformed
@@ -515,7 +490,6 @@ public void restaura(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JMenuItem estadistica_mensual;
     public javax.swing.JMenuItem item_calculadora;
     public javax.swing.JMenuItem item_cancelaCompra;
     public javax.swing.JMenuItem item_cancelaVenta;

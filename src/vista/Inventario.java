@@ -20,6 +20,12 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Conexion;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -272,6 +278,7 @@ Conexion cn= new Conexion();
         this.tabla2.updateUI();
            modelo2.getDataVector().removeAllElements();
         this.tabla3.updateUI();
+        this.txt_codigo.setText("");
     }
   public void mostrarUnico(){
     try {
@@ -395,6 +402,11 @@ Conexion cn= new Conexion();
 
         jButton3.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jButton3.setText("Generar Reporte");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         tabla1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jScrollPane1.setViewportView(tabla1);
@@ -525,6 +537,22 @@ Conexion cn= new Conexion();
     private void btn_cleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cleanActionPerformed
           limpia_tabla();
     }//GEN-LAST:event_btn_cleanActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+     try {
+        Connection cnx=cn.conectar();
+      JasperReport report=null;
+      String path="E:\\Documentos\\NetBeansProjects\\papel\\src\\jasper\\ticketVenta.jasper";
+    
+        report=(JasperReport) JRLoader.loadObjectFromFile(path);
+        JasperPrint jprint=JasperFillManager.fillReport(report,null,cnx);
+        JasperViewer view = new JasperViewer(jprint,false);
+        view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        view.setVisible(true);
+    } catch (JRException ex) {
+        Logger.getLogger(Inventario.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

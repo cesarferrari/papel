@@ -204,7 +204,8 @@ public class cancelar_compra extends javax.swing.JFrame {
                int sel=this.Tabla.getRowCount();
               for (int i = 0; i <sel ; i++) {
                   if(i!=seleccion){
-                      cancelado=cancelado+"/"+this.Tabla.getValueAt(i,0).toString()+"/"+this.Tabla.getValueAt(i,4).toString()+"/"+this.Tabla.getValueAt(i,3).toString()+"/"+this.Tabla.getValueAt(i,2).toString()+"!";
+                      cancelado=cancelado+"/"+this.Tabla.getValueAt(i,0).toString()+"/"+this.Tabla.getValueAt(i,4).toString()+"/"
+                              +this.Tabla.getValueAt(i,3).toString()+"/"+this.Tabla.getValueAt(i,2).toString()+"!";
                   }
                       if(i==seleccion){
                           cancelado=cancelado+"/"+this.Tabla.getValueAt(seleccion, 0).toString()+"/ 0/ cancelado/ 0.00!";
@@ -277,6 +278,10 @@ public class cancelar_compra extends javax.swing.JFrame {
                 btn_allActionPerformed(evt);
             }
         });
+
+        txt_code.setEditable(false);
+
+        txt_cantidad.setEditable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

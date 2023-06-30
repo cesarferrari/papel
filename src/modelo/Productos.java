@@ -12,7 +12,18 @@ public class Productos {
    private int id=0; 
    private String codigo="";
    private String categoria="";
-
+  private String nombre="";
+   private String descripcion="";
+   private String proveedor="";
+   private int stock=0;
+   private int seleccion=0;
+   private int select=0;
+   private String usuario="";
+   private String contraseña="";
+   private String rol="";
+private double precio=0;
+private double precioVenta=0;
+private String Aux="";
     public String getCategoria() {
         return categoria;
     }
@@ -28,18 +39,7 @@ public class Productos {
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
-   private String nombre="";
-   private String descripcion="";
-   private String proveedor="";
-   private int stock=0;
-   private int seleccion=0;
-   private int select=0;
-   private String usuario="";
-   private String contraseña="";
-   private String rol="";
-private double precio=0;
-private double precioVenta=0;
-private String Aux="";
+ 
 
     public String getAux() {
         return Aux;

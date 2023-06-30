@@ -52,6 +52,31 @@ public class Categoria extends javax.swing.JFrame {
            
         }
     }
+     public  void radioClientes(String consulta){
+     
+      //  sql="select id_cliente,nombre,identificacion,direccion,telefono from clientes where id_cliente=1";
+        model= new DefaultTableModel();
+        String titulos[]={"idcategoria","categoria"};
+        model.setColumnIdentifiers(titulos);
+        cnx=con.conectar();
+        try{
+       // st=cnx.createStatement();
+       PreparedStatement pst= cnx.prepareStatement(consulta);
+        rs=pst.executeQuery();
+        String num[]=new String[5];
+            while (rs.next()) {
+               num[0]= rs.getString("idcategoria");
+                num[1]=rs.getString("categoria");
+             
+                model.addRow(num);
+            }
+            this.jTable2.setModel(model);
+            cnx.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+           
+        }
+    }
     public void limpiarcliente(){
         this.txt_id.setText(null);
       this.txt_categoria.setText("");
@@ -406,10 +431,12 @@ public class Categoria extends javax.swing.JFrame {
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
       this.txt_categoria.setText("");
       this.txt_id.setText("");
+      grupo1.clearSelection();
+        model.getDataVector().removeAllElements();
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
-        System.exit(0);
+        dispose();
     }//GEN-LAST:event_btn_salirActionPerformed
 
     private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
@@ -421,6 +448,10 @@ public class Categoria extends javax.swing.JFrame {
         }else if(this.radio_categoria.isSelected()){
              String cons="select * from categoria where categoria='"+this.txt_seleccion.getText()+"'";
             radioClientesId(cons);
+            this.txt_seleccion.setText("");
+        }else {
+             String cons="select * from categoria ";
+            radioClientes(cons);
             this.txt_seleccion.setText("");
         }
     }//GEN-LAST:event_btn_buscarActionPerformed

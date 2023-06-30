@@ -162,8 +162,14 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txt_code">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txt_cantidad">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

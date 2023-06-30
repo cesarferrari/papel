@@ -30,8 +30,42 @@ public class proveedores extends javax.swing.JFrame {
         initComponents();
         
     }
-
-    public  void radioClientesId(String consulta){
+ public  void radioClientesId(String consulta){
+     
+      //  sql="select id_cliente,nombre,identificacion,direccion,telefono from clientes where id_cliente=1";
+        model= new DefaultTableModel();
+        String titulos[]={"idproveedor","nombre","direccion","telefono","email","fabricaion","celular","cuenta1","cuenta2","estado","identificacion"};
+        model.setColumnIdentifiers(titulos);
+        cnx=con.conectar();
+        try{
+       // st=cnx.createStatement();
+       PreparedStatement pst= cnx.prepareStatement(consulta);
+        rs=pst.executeQuery();
+        String num[]=new String[11];
+            while (rs.next()) {
+               num[0]= rs.getString("idproveedor");
+                num[1]=rs.getString("nombre");
+                 num[2]= rs.getString("direccion");
+                num[3]=rs.getString("telefono");
+                 num[4]= rs.getString("email");
+                num[5]=rs.getString("fabricacion");
+                 num[6]= rs.getString("celular");
+                num[7]=rs.getString("cuenta1");
+                 num[8]= rs.getString("cuenta2");
+                num[9]=rs.getString("estado");
+                 num[10]= rs.getString("identificacion");
+                
+               
+                model.addRow(num);
+            }
+            this.jTable2.setModel(model);
+            cnx.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+           
+        }
+    }
+    public  void radioClientes(String consulta){
      
       //  sql="select id_cliente,nombre,identificacion,direccion,telefono from clientes where id_cliente=1";
         model= new DefaultTableModel();
@@ -376,7 +410,7 @@ public class proveedores extends javax.swing.JFrame {
             }
         });
 
-        grupo1.add(radio_id);
+        buttonGroup1.add(radio_id);
         radio_id.setText("Id Proveedor");
         radio_id.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -384,10 +418,10 @@ public class proveedores extends javax.swing.JFrame {
             }
         });
 
-        grupo1.add(radio_nombre);
+        buttonGroup1.add(radio_nombre);
         radio_nombre.setText("Nombre o Razon social");
 
-        grupo1.add(radio_identificador);
+        buttonGroup1.add(radio_identificador);
         radio_identificador.setText("identificador");
         radio_identificador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -511,10 +545,10 @@ public class proveedores extends javax.swing.JFrame {
 
         jLabel9.setText("Estado");
 
-        buttonGroup1.add(radio_activo);
+        grupo1.add(radio_activo);
         radio_activo.setText("activo");
 
-        buttonGroup1.add(radio_inactivo);
+        grupo1.add(radio_inactivo);
         radio_inactivo.setText("inactivo");
 
         jLabel10.setText("no.cuenta");
@@ -699,6 +733,10 @@ public class proveedores extends javax.swing.JFrame {
              String cons="select * from proveedores where identificacion="+this.txt_seleccion.getText();
             radioClientesId(cons);
             this.txt_seleccion.setText("");
+        }else {
+             String cons="select * from proveedores ";
+            radioClientes(cons);
+            this.txt_seleccion.setText("");
         }
     }//GEN-LAST:event_btn_reporteActionPerformed
 
@@ -738,10 +776,13 @@ public class proveedores extends javax.swing.JFrame {
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
        limpiarcliente();
           this.jTabbedPane2.setSelectedIndex(1);
+          grupo1.clearSelection();
+          buttonGroup1.clearSelection();
+            model.getDataVector().removeAllElements();
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
-       System.exit(0);
+      dispose();
     }//GEN-LAST:event_btn_salirActionPerformed
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked

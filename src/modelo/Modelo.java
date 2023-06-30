@@ -58,6 +58,8 @@ private String rol;
                      
                      Ventas.user=pr.getUsuario();
                      Compras.user=pr.getUsuario();
+                     Contraseña.user=pr.getUsuario();
+                     FRProducto.user=pr.getUsuario();
                      bandera=true;
                  }
              }

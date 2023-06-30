@@ -307,7 +307,7 @@
                     <Component class="javax.swing.JRadioButton" name="radio_id">
                       <Properties>
                         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                          <ComponentRef name="grupo1"/>
+                          <ComponentRef name="buttonGroup1"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Id Proveedor"/>
                       </Properties>
@@ -318,7 +318,7 @@
                     <Component class="javax.swing.JRadioButton" name="radio_nombre">
                       <Properties>
                         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                          <ComponentRef name="grupo1"/>
+                          <ComponentRef name="buttonGroup1"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Nombre o Razon social"/>
                       </Properties>
@@ -326,7 +326,7 @@
                     <Component class="javax.swing.JRadioButton" name="radio_identificador">
                       <Properties>
                         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                          <ComponentRef name="grupo1"/>
+                          <ComponentRef name="buttonGroup1"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="identificador"/>
                       </Properties>
@@ -613,7 +613,7 @@
                 <Component class="javax.swing.JRadioButton" name="radio_activo">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="buttonGroup1"/>
+                      <ComponentRef name="grupo1"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="activo"/>
                   </Properties>
@@ -621,7 +621,7 @@
                 <Component class="javax.swing.JRadioButton" name="radio_inactivo">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="buttonGroup1"/>
+                      <ComponentRef name="grupo1"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="inactivo"/>
                   </Properties>

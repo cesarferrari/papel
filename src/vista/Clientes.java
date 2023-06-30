@@ -408,6 +408,12 @@ public void actualizaCliente(){
 
         jPanel7.setBackground(new java.awt.Color(102, 204, 255));
 
+        txt_seleccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_seleccionKeyTyped(evt);
+            }
+        });
+
         jButton1.setText("Reporte");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -627,7 +633,7 @@ public void actualizaCliente(){
     }//GEN-LAST:event_btn_nuevoActionPerformed
 
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
-System.exit(0);        // TODO add your handling code here:
+dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_btn_salirActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
@@ -644,6 +650,10 @@ System.exit(0);        // TODO add your handling code here:
     private void txt_nombreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_nombreFocusLost
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_nombreFocusLost
+
+    private void txt_seleccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_seleccionKeyTyped
+       
+    }//GEN-LAST:event_txt_seleccionKeyTyped
 
     /**
      * @param args the command line arguments
