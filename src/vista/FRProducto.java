@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.*;
-import static vista.Compras.cliente;
+import static vista.CompraR.cliente;
 public class FRProducto extends javax.swing.JFrame {
 TextAutoCompleter ac;
   Conexion con= new Conexion();

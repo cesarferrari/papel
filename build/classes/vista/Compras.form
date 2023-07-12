@@ -58,7 +58,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="txt_importe" alignment="0" min="-2" pref="83" max="-2" attributes="0"/>
@@ -93,9 +93,9 @@
                               <Component id="jLabel5" min="-2" pref="134" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="jPanel2" max="32767" attributes="0"/>
+                      <Component id="jPanel2" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -172,7 +172,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace pref="38" max="32767" attributes="0"/>
                                       <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                                   </Group>
@@ -214,7 +214,7 @@
                               <Component id="txt_noVenta" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -239,7 +239,7 @@
                                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Component id="txt_proveedor" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
+                              <Component id="txt_cliente" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btn_cliente" min="-2" pref="40" max="-2" attributes="0"/>
@@ -249,7 +249,7 @@
                                   <Component id="cbx_documento" min="-2" pref="112" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                                   <Component id="txt_fecha" min="-2" pref="109" max="-2" attributes="0"/>
-                                  <EmptySpace pref="48" max="32767" attributes="0"/>
+                                  <EmptySpace pref="94" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
@@ -272,7 +272,7 @@
                                       <Group type="102" attributes="0">
                                           <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                                          <Component id="txt_proveedor" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txt_cliente" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="btn_cliente" min="-2" pref="40" max="-2" attributes="0"/>
                                   </Group>
@@ -305,13 +305,13 @@
                     <Property name="autoscrolls" type="boolean" value="true"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txt_proveedor">
+                <Component class="javax.swing.JTextField" name="txt_cliente">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
-                    <Property name="text" type="java.lang.String" value="Proveedor general"/>
+                    <Property name="text" type="java.lang.String" value="PUBLICO GENERAL"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_proveedorActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_clienteActionPerformed"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
@@ -322,15 +322,12 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Tahoma" size="12" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Proveedor"/>
+                    <Property name="text" type="java.lang.String" value="Cliente"/>
                     <Property name="autoscrolls" type="boolean" value="true"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="btn_cliente">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/img/Img/lupa.png"/>
-                    </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
@@ -393,6 +390,15 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="Tabla">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="SansSerif" size="14" style="1"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                      <Table columnCount="0" rowCount="0"/>
+                    </Property>
+                    <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                      <TableColumnModel selectionModel="0"/>
+                    </Property>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
@@ -419,17 +425,17 @@
                           <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
                           <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="txt_codigo" min="-2" pref="160" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="btn_nuevoProducto" min="-2" pref="40" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="btn_codigo" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <EmptySpace pref="67" max="32767" attributes="0"/>
                                   <Component id="txt_stock" min="-2" pref="98" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                               </Group>
@@ -451,25 +457,23 @@
                               </Group>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="txt_precio" pref="104" max="32767" attributes="0"/>
-                                  <Component id="txt_precioProveedor" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="txt_precioProveedor" min="-2" pref="104" max="-2" attributes="0"/>
+                              <Component id="txt_precio" min="-2" pref="104" max="-2" attributes="0"/>
+                              <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jCheckBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
@@ -490,17 +494,21 @@
                                       <Component id="txt_precio" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Component id="btn_nuevoProducto" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btn_codigo" min="-2" pref="40" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel14" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="txt_precioProveedor" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jLabel21" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txt_nombre" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="txt_nombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txt_precioProveedor" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace min="0" pref="11" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -559,6 +567,14 @@
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                   </AuxValues>
                 </Component>
+                <Component class="javax.swing.JButton" name="btn_codigo">
+                  <Properties>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_codigoActionPerformed"/>
+                  </Events>
+                </Component>
                 <Component class="javax.swing.JLabel" name="jLabel15">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -612,24 +628,14 @@
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel4">
+                <Component class="javax.swing.JLabel" name="jLabel21">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="11" style="1"/>
+                      <Font name="Tahoma" size="12" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Precio proveedor"/>
+                    <Property name="text" type="java.lang.String" value="precio proveedor"/>
+                    <Property name="autoscrolls" type="boolean" value="true"/>
                   </Properties>
-                </Component>
-                <Component class="javax.swing.JButton" name="btn_nuevoProducto">
-                  <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/img/Img/lupa.png"/>
-                    </Property>
-                    <Property name="enabled" type="boolean" value="false"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_nuevoProductoActionPerformed"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -650,7 +656,7 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btn_agregar" min="-2" pref="50" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btn_quitar" pref="50" max="32767" attributes="0"/>
+                          <Component id="btn_quitar" pref="98" max="32767" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btn_restar" min="-2" pref="50" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
@@ -719,9 +725,6 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btn_agregar">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/img/Img/nuevo.png"/>
-                    </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
@@ -743,9 +746,6 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btn_quitar">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/img/Img/eliminar.png"/>
-                    </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
@@ -788,9 +788,6 @@
                   <Font name="Tahoma" size="18" style="1"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_noVentaActionPerformed"/>
-              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -848,7 +845,7 @@
                   <Color blue="ff" green="33" red="33" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Rockwell Extra Bold" size="14" style="1"/>
+                  <Font name="Verdana" size="18" style="1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="nuevo"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -867,9 +864,9 @@
                   <Color blue="ff" green="33" red="33" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Rockwell Extra Bold" size="14" style="1"/>
+                  <Font name="Verdana" size="18" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="generar Compra"/>
+                <Property name="text" type="java.lang.String" value="generar compra"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
                     <EtchetBorder/>
@@ -887,7 +884,7 @@
                   <Color blue="ff" green="33" red="33" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Rockwell Extra Bold" size="14" style="1"/>
+                  <Font name="Verdana" size="18" style="1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="importe"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -907,7 +904,7 @@
                   <Color blue="ff" green="33" red="33" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Rockwell Extra Bold" size="14" style="1"/>
+                  <Font name="Verdana" size="18" style="1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="recibo"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -924,7 +921,7 @@
                   <Color blue="ff" green="33" red="33" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Rockwell Extra Bold" size="14" style="1"/>
+                  <Font name="Verdana" size="18" style="1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="cancelar"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -963,7 +960,7 @@
                   <Color blue="ff" green="33" red="33" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Rockwell Extra Bold" size="14" style="1"/>
+                  <Font name="Verdana" size="18" style="1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Descuento"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">

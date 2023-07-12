@@ -138,7 +138,7 @@ Conexion cn= new Conexion();
          
     try {
         Connection cnx=cn.conectar();
-        PreparedStatement pst=cnx.prepareCall("select codigo_producto,sum(cantidad)as cantidad from detalle_compra where fecha between ? and ?   group by codigo_producto having codigo_producto=? ");
+        PreparedStatement pst=cnx.prepareStatement("select codigo_producto,sum(cantidad)as cantidad from detalle_compra where fecha between ? and ?   group by codigo_producto having codigo_producto=? ");
        pst.setString(1, fechaInicio());
         pst.setString(2, fechaFin());
         pst.setString(3, this.txt_codigo.getText());
@@ -308,7 +308,7 @@ Conexion cn= new Conexion();
                try {
         Connection cnx=cn.conectar();
         Statement st=cnx.createStatement();
-        ResultSet rs=st.executeQuery("select*from productos1 where codigo="+this.tabla2.getValueAt(i, 0).toString());
+        ResultSet rs=st.executeQuery("select*from productos1 where codigo='"+this.tabla2.getValueAt(i, 0).toString()+"'");
         Object numeros[]=new Object[4];
         while (rs.next()) {
             numeros[0]=rs.getString("codigo");
@@ -322,7 +322,7 @@ Conexion cn= new Conexion();
         this.tabla1.setModel(modelo);
        
     } catch (SQLException ex) {
-        Logger.getLogger(Inventario.class.getName()).log(Level.SEVERE, null, ex);
+       JOptionPane.showMessageDialog(null, ex);
     }
         }
       
@@ -542,7 +542,7 @@ Conexion cn= new Conexion();
      try {
         Connection cnx=cn.conectar();
       JasperReport report=null;
-      String path="E:\\Documentos\\NetBeansProjects\\papel\\src\\jasper\\ticketVenta.jasper";
+      String path="E:\\Documentos\\NetBeansProjects\\papel\\src\\jasper\\ticket_inventario.jasper";
     
         report=(JasperReport) JRLoader.loadObjectFromFile(path);
         JasperPrint jprint=JasperFillManager.fillReport(report,null,cnx);

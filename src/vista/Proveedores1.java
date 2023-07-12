@@ -21,7 +21,7 @@ import modelo.Conexion;
  */
 public class Proveedores1 extends javax.swing.JFrame {
 
-   private Compras compra;
+   private CompraR compra;
  Conexion con = new Conexion();
     private DefaultTableModel model;
      private  TextAutoCompleter ac;
@@ -233,8 +233,8 @@ public class Proveedores1 extends javax.swing.JFrame {
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
         int seleccion=this.jTable1.getSelectedRow();
         try{
-         Compras.txt_proveedor.setText(tab());
-          Compras.cliente=Integer.parseInt(this.jTable1.getValueAt(seleccion, 0).toString());
+         CompraR.txt_proveedor.setText(tab());
+          CompraR.cliente=Integer.parseInt(this.jTable1.getValueAt(seleccion, 0).toString());
          dispose();
          
      }catch(Exception e){

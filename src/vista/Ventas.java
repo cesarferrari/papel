@@ -1,9 +1,12 @@
+package vista;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vista;
+
+
 
 import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_0;
@@ -16,41 +19,43 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import static java.util.Collections.list;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import modelo.*;
+import modelo.Conexion;
 
-
-/**
- *
- * @author julio
- */
 public class Ventas extends javax.swing.JFrame {
 Conexion con = new Conexion();
-Modelo m= new Modelo();
+
 public static String user="";
 public static int cliente=1;
 
    DefaultTableModel mod;
    double resultado;
-   Caja bx;
+ //  Caja bx;
    ArrayList<Integer>number;
      ArrayList<String>chain;
      LinkedList<String>products;
      int filas =0;
+     
     public Ventas() {
         initComponents();
          mod= new DefaultTableModel();
-        String titulos[]={"codigo producto","cantidad","producto","precio producto"};
+        String titulos[]={"cantidad","codigo producto","producto","precio producto"};
         mod.setColumnIdentifiers(titulos);
        String numeros[]=new String[4];
-       numeros[0]=txt_nombre.getText();
-       numeros[1]=txt_total.getText();
-       numeros[2]=txt_cantidad.getText();
-       numeros[3]=txt_codigo.getText();
+       
+        numeros[0]=txt_cantidad.getText();
+         numeros[1]=txt_codigo.getText();
+       numeros[2]=txt_nombre.getText();
+       numeros[3]=txt_total.getText();
+      
+      
        
       
        this.Tabla.setModel(mod);
@@ -120,7 +125,7 @@ public static int cliente=1;
         int select=this.Tabla.getRowCount();
         ArrayList<String> lista=new ArrayList<>();
         for (int i = 0; i < select; i++) {
-            lista.add("/"+this.Tabla.getValueAt(i,0).toString()+"/"+this.Tabla.getValueAt(i,1).toString()+"/"+this.Tabla.getValueAt(i,2).toString()+"/"+this.Tabla.getValueAt(i,3).toString()+"!");
+            lista.add("/"+this.Tabla.getValueAt(i,1).toString()+"/"+this.Tabla.getValueAt(i,0).toString()+"/"+this.Tabla.getValueAt(i,2).toString()+"/"+this.Tabla.getValueAt(i,3).toString()+"!");
      
         }
         for (int i = 0; i < select; i++) {
@@ -209,7 +214,6 @@ public static int cliente=1;
    public void agrega_articulo(){
          double resultado=0;
          int sobrante=0;
-       
         try{
          String cant=txt_cantidad.getText();
        String precio=txt_precio.getText();
@@ -217,30 +221,23 @@ public static int cliente=1;
        double Dstock=Double.parseDouble(stock);
       double  Dcant=Double.parseDouble(cant);
       double  Dprecio=Double.parseDouble(precio);
-        
-      
-       if (Dstock<Dcant) {
+        if (Dstock<Dcant) {
             JOptionPane.showMessageDialog(null, "no tiene suficiente stock", stock, JOptionPane.ERROR_MESSAGE);
         }else if(Dcant<=0){
             JOptionPane.showMessageDialog(null, "debes indicar al menos un articulo");
         }else{
        sobrante=(int) (Dstock-Dcant);
-            
-                Connection cn=con.conectar();
+                    Connection cn=con.conectar();
                 PreparedStatement pst=cn.prepareStatement("update productos1 set stock=? where codigo=?");
                 pst.setInt(1, sobrante );
                 pst.setString(2,this.txt_codigo.getText() );
-                pst.execute();
-                
-               
-                
-                resultado=Dcant*Dprecio;
+              //  pst.execute();
+                    resultado=Dcant*Dprecio;
                 this.txt_total.setText(""+resultado);
-                String numeros[]= new String[5];
-                
-                numeros[0]=this.txt_codigo.getText();
-                numeros[1]=cant;
-                numeros[2]=txt_nombre.getText();
+                String numeros[]= new String[4];
+                 numeros[0]=cant;
+                numeros[1]=this.txt_codigo.getText();
+               numeros[2]=txt_nombre.getText();
                 numeros[3]=txt_total.getText();
              
                 mod.addRow(numeros);
@@ -280,8 +277,8 @@ public static int cliente=1;
         for (int i = 0; i < this.Tabla.getRowCount(); i++) {
                 try{
             PreparedStatement pst=cnx.prepareStatement("insert into detalle_venta(codigo_producto,cantidad,producto,precio,fecha)values(?,?,?,?,?)");
-            pst.setString(1, Tabla.getValueAt(i, 0).toString());
-              pst.setString(2, Tabla.getValueAt(i, 1).toString());
+            pst.setString(1, Tabla.getValueAt(i, 1).toString());
+              pst.setString(2, Tabla.getValueAt(i, 0).toString());
                 pst.setString(3, Tabla.getValueAt(i, 2).toString());
                   pst.setString(4, Tabla.getValueAt(i, 3).toString());
                     pst.setString(5, this.txt_fecha.getText());
@@ -293,22 +290,34 @@ public static int cliente=1;
     try {
         cnx.close();
     } catch (SQLException ex) {
-        Logger.getLogger(Compras.class.getName()).log(Level.SEVERE, null, ex);
+        System.out.println(ex);
     }
            
     }
    public void restaura(){
         int tot=this.Tabla.getRowCount();
         int rest=0;
+       
+        List<String> lista=new ArrayList<String>();
+         Map<Integer,String>hash= new HashMap<>();
+        // int select=this.Tabla.getSelectedRow();
+      
+   
+        for(int i=0;i<tot;i++){
+            hash.put(Integer.parseInt(this.Tabla.getValueAt(i, 0).toString()),this.Tabla.getValueAt(i, 1).toString());
+        }
+        for (Map.Entry<Integer,String> numero : hash.entrySet()) {
+            lista.add("update productos1 set stock=stock-"+numero.getKey()+" where codigo='"+numero.getValue()+"'" );
+        }
+         // tot=;
         try{
         
          Connection cn=con.conectar();
-                PreparedStatement pst=cn.prepareStatement("update productos1 set stock=? where codigo=?");
+               
             
-               for (int i = 0; i < tot; i++) {
-                 rest=resto(Integer.parseInt(this.Tabla.getValueAt(i, 0).toString()))+Integer.parseInt(this.Tabla.getValueAt(i, 1).toString());
-                 pst.setInt(1,rest );
-                pst.setString(2,  this.Tabla.getValueAt(i, 0).toString() );
+               for (int i = 0; i < lista.size(); i++) {
+                  PreparedStatement pst=cn.prepareStatement(lista.get(i));
+              
                 pst.execute();
             }
          
@@ -409,7 +418,6 @@ public static int cliente=1;
         jLabel9.setText("Cliente");
         jLabel9.setAutoscrolls(true);
 
-        btn_cliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/lupa.png"))); // NOI18N
         btn_cliente.setEnabled(false);
         btn_cliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -493,6 +501,14 @@ public static int cliente=1;
             }
         };
         Tabla.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        Tabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
         Tabla.setFocusable(false);
         Tabla.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(Tabla);
@@ -530,7 +546,6 @@ public static int cliente=1;
 
         txt_nombre.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
 
-        btn_codigo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/lupa.png"))); // NOI18N
         btn_codigo.setEnabled(false);
         btn_codigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -551,6 +566,11 @@ public static int cliente=1;
         txt_precio.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
 
         jCheckBox1.setText("automatic");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -631,7 +651,6 @@ public static int cliente=1;
         txt_total.setEditable(false);
         txt_total.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
 
-        btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/nuevo.png"))); // NOI18N
         btn_agregar.setEnabled(false);
         btn_agregar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -653,7 +672,6 @@ public static int cliente=1;
             }
         });
 
-        btn_quitar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Img/eliminar.png"))); // NOI18N
         btn_quitar.setEnabled(false);
         btn_quitar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -677,7 +695,7 @@ public static int cliente=1;
                 .addGap(18, 18, 18)
                 .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btn_quitar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, Short.MAX_VALUE)
+                .addComponent(btn_quitar, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_restar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(13, 13, 13))
@@ -731,7 +749,7 @@ public static int cliente=1;
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel19)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                                 .addComponent(jLabel20)
                                 .addGap(31, 31, 31))
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -929,7 +947,7 @@ public static int cliente=1;
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_importe, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -956,8 +974,8 @@ public static int cliente=1;
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txt_total_aPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1035,8 +1053,17 @@ new productos1().setVisible(true);        // TODO add your handling code here:
 
     private void txt_codigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codigoKeyTyped
 if(evt.getKeyChar()==VK_ENTER){
-    this.txt_cantidad.setText("1");
-    agrega_articulo();
+    
+  if (code().equalsIgnoreCase("")) {
+     // this.txt_cantidad.setText("1");
+            JOptionPane.showMessageDialog(null,"ingrese un codigo de producto existente");
+            this.txt_codigo.setText("");
+             this.txt_stock.setText("");
+            this.txt_nombre.setText("");
+            this.txt_precio.setText("");
+        }else{
+           
+        }
 }       
     }//GEN-LAST:event_txt_codigoKeyTyped
 
@@ -1053,6 +1080,9 @@ if(evt.getKeyChar()==VK_ENTER){
         if (code().equalsIgnoreCase("")) {
             JOptionPane.showMessageDialog(null,"ingrese un codigo de producto existente");
             this.txt_codigo.setText("");
+            this.txt_stock.setText("");
+            this.txt_nombre.setText("");
+            this.txt_precio.setText("");
         }else{
            
         }
@@ -1076,29 +1106,17 @@ if(evt.getKeyChar()==VK_ENTER){
     }//GEN-LAST:event_btn_quitarActionPerformed
 
     private void btn_restarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_restarActionPerformed
-  int select=this.Tabla.getSelectedRow();
-        int tot=0;
-   String aux= this.Tabla.getValueAt(select, 0).toString();
-        try{
-         
-           tot=resto(Integer.parseInt(this.Tabla.getValueAt(select, 0).toString()))+Integer.parseInt(this.Tabla.getValueAt(select, 1).toString());
-         Connection cn=con.conectar();
-                PreparedStatement pst=cn.prepareStatement("update productos1 set stock=? where codigo=?");
-                
-                pst.setInt(1,tot );
-                pst.setString(2, aux);
-                pst.execute();
-         
-        mod.removeRow(select);
+  try{
+      int select=this.Tabla.getSelectedRow();
+  mod.removeRow(select);
         actualiza_precio();
-    }catch(ArrayIndexOutOfBoundsException e){
-        JOptionPane.showMessageDialog(null,"debe de seleccionar un producto de la tabla a eliminar ");
-    }catch(Exception e){
-        
-    }
+   
         this.txt_cambio.setText("");
         this.txt_importe.setText("");
         this.txt_descuento.setText("");
+  }catch(ArrayIndexOutOfBoundsException e){
+      JOptionPane.showMessageDialog(null,"debe de seleccionar un producto de la tabla a eliminar ");
+  }
         
     }//GEN-LAST:event_btn_restarActionPerformed
 
@@ -1120,7 +1138,7 @@ this.txt_serie.setEnabled(false);
        int jp= JOptionPane.showConfirmDialog(this,"desea salir de ventas","confirmar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (jp==JOptionPane.YES_OPTION) {
           clean();
-       restaura();
+     //  restaura();
        limpia_tabla();
          dispose();
         }else if(jp==JOptionPane.NO_OPTION){
@@ -1157,10 +1175,15 @@ this.txt_serie.setEnabled(false);
     }//GEN-LAST:event_btn_importeActionPerformed
 
     private void btn_generar_ventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_ventaActionPerformed
-        insertaVenta();
+       if(this.Tabla.getRowCount()>0){
+            insertaVenta();
         insertaDetalleVenta();
+        restaura();
         limpia_tabla();
         clean();
+       }else{
+           JOptionPane.showMessageDialog(null,"no tiene ningun articulo para venta");
+       }
       
     }//GEN-LAST:event_btn_generar_ventaActionPerformed
 
@@ -1168,7 +1191,7 @@ this.txt_serie.setEnabled(false);
    int jp= JOptionPane.showConfirmDialog(this,"desea cancelar la venta","confirmar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (jp==JOptionPane.YES_OPTION) {
           clean();
-       restaura();
+     //  restaura();
        limpia_tabla();
         
         }else if(jp==JOptionPane.NO_OPTION){
@@ -1202,7 +1225,7 @@ this.txt_serie.setEnabled(false);
            for (int i = 0; i < Tabla.getColumnCount(); i++) {
                mod.setValueAt(info[i], seleccion, i);
            }
-        
+        descuento();
         }
        
       
@@ -1213,7 +1236,20 @@ this.txt_serie.setEnabled(false);
        }
     }//GEN-LAST:event_btn_descuentoActionPerformed
 
-    
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    public void descuento(){
+        int select=this.Tabla.getRowCount();
+        double count=0;
+        List<Double>desc=new ArrayList<>();
+        for (int i = 0; i < select; i++) {
+            desc.add(Double.parseDouble(Tabla.getValueAt(i, 3).toString()));
+            count=count+desc.get(i);
+        }
+        this.txt_subtotal.setText(""+count);
+    }
     public int resto(int r){
         int resto=0;
     try {
@@ -1268,6 +1304,7 @@ this.txt_serie.setEnabled(false);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Ventas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
