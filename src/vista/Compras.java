@@ -73,7 +73,7 @@ public static int cliente=1;
        
  try{
      Statement st=(Statement) cnx.createStatement();
-     ResultSet rs=st.executeQuery("select  codigo,nombre,stock,precio from productos1 where codigo="+this.txt_codigo.getText());
+     ResultSet rs=st.executeQuery("select  codigo,nombre,stock,precio from productos1 where codigo='"+this.txt_codigo.getText()+"'");
      String numero[]= new String[4];    
       
      while(rs.next()){
@@ -227,9 +227,10 @@ public static int cliente=1;
         }else{
        sobrante=(int) (Dstock-Dcant);
                     Connection cn=con.conectar();
-                PreparedStatement pst=cn.prepareStatement("update productos1 set stock=? where codigo=?");
+                PreparedStatement pst=cn.prepareStatement("update productos1 set stock=?,precioCompra=? where codigo=?");
                 pst.setInt(1, sobrante );
-                pst.setString(2,this.txt_codigo.getText() );
+                pst.setString(2,precio);
+                pst.setString(3,this.txt_codigo.getText() );
               //  pst.execute();
                     resultado=Dcant*Dprecio;
                 this.txt_total.setText(""+resultado);

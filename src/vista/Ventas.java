@@ -150,30 +150,7 @@ public static int cliente=1;
     }
     return code;
 }
-   public void  insertaVenta(){
-       Connection cnx=con.conectar();
-       String sql="insert into venta(id_cliente,vendedor,productos,total,codigo,fecha)values(?,?,?,?,?,?)";
-       try{
-           PreparedStatement pst=cnx.prepareStatement(sql);
-           pst.setInt(1,cliente);
-            pst.setString(2, this.txt_serie.getText());
-             pst.setString(3, vta());
-              pst.setString(4, this.txt_subtotal.getText());
-               pst.setString(5, this.txt_noVenta.getText());
-                pst.setString(6, this.txt_fecha.getText());
-                
-                int val=pst.executeUpdate();
-                if(val>0){
-                    
-                }else{
-                    JOptionPane.showMessageDialog(null,"no tienes artuculos para regitrar");
-                }
-       }catch(Exception e){
-           JOptionPane.showMessageDialog(null,e);
-       }
-       
-       
-   }
+ 
    public void clean(){
          this.txt_subtotal.setText("");
         this.txt_total.setText("");
@@ -270,6 +247,30 @@ public static int cliente=1;
         this.txt_importe.setText("");
         this.txt_descuento.setText("");
         
+   }
+     public void  insertaVenta(){
+       Connection cnx=con.conectar();
+       String sql="insert into venta(id_cliente,vendedor,productos,total,codigo,fecha)values(?,?,?,?,?,?)";
+       try{
+           PreparedStatement pst=cnx.prepareStatement(sql);
+           pst.setInt(1,cliente);
+            pst.setString(2, this.txt_serie.getText());
+             pst.setString(3, vta());
+              pst.setString(4, this.txt_subtotal.getText());
+               pst.setString(5, this.txt_noVenta.getText());
+                pst.setString(6, this.txt_fecha.getText());
+                
+                int val=pst.executeUpdate();
+                if(val>0){
+                    
+                }else{
+                    JOptionPane.showMessageDialog(null,"no tienes artuculos para regitrar");
+                }
+       }catch(Exception e){
+           JOptionPane.showMessageDialog(null,e);
+       }
+       
+       
    }
     public void insertaDetalleVenta(){
         Conexion cn = new Conexion();
